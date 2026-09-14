@@ -1,0 +1,162 @@
+<!-- ============================================================= -->
+<!--  Off-Limits & Non-Solicit Register                            -->
+<!--  Uses the existing LegalDash design system: bootstrap cards,  -->
+<!--  ng-zorro nz-table / nz-select, bootstrap-icons, lg- classes. -->
+<!--  Render this under a topbar-only layout (see INTEGRATION.md).  -->
+<!-- ============================================================= -->
+
+<div class="ol-page">
+
+  <!-- Lightweight breadcrumb back to the LegalDash landing page -->
+  <div class="d-flex align-items-center gap-2 mb-2 ol-crumb">
+    <a [routerLink]="['/pages/legaldash']" class="ol-crumb-home">LegalDash</a>
+    <i class="bi bi-chevron-right"></i>
+    <span>Off-limits &amp; non-solicit register</span>
+  </div>
+
+  <!-- Title + guidance -->
+  <p class="lg-title-header-legal mb-0">Off-limits and non-solicit register</p>
+
+  <div class="ol-guidance mt-2">
+    <i class="bi bi-shield-exclamation"></i>
+    <p class="mb-0">
+      This register lists clients and companies where Sheffield Haworth has agreed contractual
+      restrictions on approaching, contacting, poaching or placing candidates. Before approaching
+      any active candidate, check whether their current employer appears here. If in doubt, don't
+      approach &mdash; please contact Legal before proceeding. A breach carries contractual and
+      reputational risk for the firm.
+    </p>
+  </div>
+
+  <!-- Summary statistic cards -->
+  <div class="row g-3 mt-1 ol-stats">
+    <div class="col-6 col-lg-3" *ngFor="let s of stats">
+      <div class="card border-0 h-100 ol-stat">
+        <div class="card-body py-3 px-3">
+          <div class="ol-stat-num">{{ s.value }}</div>
+          <div class="ol-stat-lbl">{{ s.label }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Register card -->
+  <div class="card border-0 mt-3">
+    <div class="card-body p-0">
+
+      <!-- Region tabs -->
+      <div class="ol-tabs">
+        <button type="button"
+                *ngFor="let r of regionTabs"
+                class="ol-tab"
+                [class.active]="activeRegion === r"
+                (click)="setRegion(r)">
+          {{ r }}
+        </button>
+      </div>
+
+      <!-- Search + filters + column visibility -->
+      <div class="ol-controls">
+        <div class="ol-search">
+          <i class="bi bi-search"></i>
+          <input type="search"
+                 class="form-control"
+                 placeholder="Search by client, assignment number or scope"
+                 [(ngModel)]="searchText"
+                 (ngModelChange)="applyFilters()">
+        </div>
+
+        <!-- Team filter (ng-zorro select, as used elsewhere in the app) -->
+        <nz-select class="ol-team-select"
+                   [(ngModel)]="selectedTeam"
+                   (ngModelChange)="applyFilters()"
+                   nzPlaceHolder="Team">
+          <nz-option *ngFor="let t of teamOptions" [nzValue]="t" [nzLabel]="t"></nz-option>
+        </nz-select>
+
+        <!-- Column visibility (ngx-bootstrap dropdown, as used in the topbar) -->
+        <div dropdown class="ol-dd" [insideClick]="true">
+          <button dropdownToggle type="button" class="btn ol-dd-btn">
+            <i class="bi bi-eye"></i> Columns
+          </button>
+          <div *dropdownMenu class="dropdown-menu dropdown-menu-end ol-dd-menu">
+            <h6 class="ol-dd-head">Optional columns</h6>
+            <label class="ol-dd-check">
+              <input type="checkbox" [(ngModel)]="showEndDate"> <span>End Date</span>
+            </label>
+            <label class="ol-dd-check">
+              <input type="checkbox" [(ngModel)]="showOverview"> <span>Overview</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Reset -->
+        <button type="button" class="btn ol-reset" (click)="reset()" nz-tooltip nzTooltipTitle="Reset filters">
+          <i class="bi bi-arrow-clockwise"></i>
+        </button>
+      </div>
+
+      <!-- Table -->
+      <nz-table #olTable
+                [nzData]="displayData"
+                [nzPageSize]="10"
+                [nzScroll]="{ x: '1100px' }"
+                nzSize="small"
+                class="ol-table">
+        <thead>
+        <tr>
+          <th [nzSortFn]="sortClientName" nzColumnKey="clientName" nzWidth="190px">Client Name</th>
+          <th [nzSortFn]="sortAssignment" nzColumnKey="assignmentNumber" nzWidth="150px">Assignment Number</th>
+          <th nzWidth="180px">Team</th>
+          <th nzWidth="170px">Region</th>
+          <th nzWidth="260px">Scope</th>
+          <th [nzSortFn]="sortStartDate" nzColumnKey="startDate" nzWidth="130px">Start Date</th>
+          <th [nzSortFn]="sortLastUpdated" nzColumnKey="lastUpdated" nzWidth="130px">Last Updated</th>
+          <th *ngIf="showEndDate" nzWidth="130px">End Date</th>
+          <th *ngIf="showOverview" nzWidth="230px">Overview</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of olTable.data">
+          <td class="ol-client">{{ data.clientName }}</td>
+          <td><span class="lg-cur-tb-txt">{{ data.assignmentNumber }}</span></td>
+
+          <!-- Team tags -->
+          <td>
+            <span class="ol-tag" *ngFor="let t of data.teams" [ngClass]="teamTagClass(t)">{{ t }}</span>
+          </td>
+
+          <!-- Region tags -->
+          <td>
+            <span class="ol-tag" *ngFor="let rg of data.regions" [ngClass]="regionTagClass(rg)">{{ rg }}</span>
+          </td>
+
+          <!-- Scope: truncated with expand + hover tooltip -->
+          <td class="ol-scope">
+            <p class="ol-scope-text"
+               [class.clamp]="expandedScope !== data.assignmentNumber"
+               nz-tooltip [nzTooltipTitle]="data.scopeText">
+              {{ data.scopeText }}
+            </p>
+            <div *ngIf="expandedScope === data.assignmentNumber" class="ol-scope-detail">
+              <div><span class="ol-scope-k">Team:</span> {{ data.scopeSub }}</div>
+              <div><span class="ol-scope-k">Scope:</span> {{ data.scopeText }}</div>
+              <p class="ol-scope-note">Applies to part of the team's remit, not the entire team.</p>
+            </div>
+            <a class="ol-scope-toggle" (click)="toggleScope(data.assignmentNumber)">
+              {{ expandedScope === data.assignmentNumber ? 'Hide' : 'View scope' }}
+            </a>
+          </td>
+
+          <td class="ol-date">{{ data.startDate }}</td>
+          <td class="ol-date">{{ data.lastUpdated }}</td>
+          <td *ngIf="showEndDate" class="ol-date">{{ data.endDate }}</td>
+          <td *ngIf="showOverview" class="ol-over">{{ data.overview }}</td>
+        </tr>
+        </tbody>
+      </nz-table>
+
+    </div>
+  </div>
+
+</div>

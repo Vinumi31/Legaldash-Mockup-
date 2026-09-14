@@ -1,0 +1,36 @@
+<!-- ============================================================= -->
+<!--  LegalDash landing page                                       -->
+<!--  Entry point when a user clicks LegalDash from the SH Hub.    -->
+<!--  Large navigation tiles → key registers (routes from menu.ts) -->
+<!-- ============================================================= -->
+
+<div class="ld-landing">
+
+  <p class="ld-kicker mb-0">Sheffield Haworth</p>
+  <p class="lg-title-header-legal mb-0">LegalDash</p>
+  <p class="lg-sub-title mt-1">
+    Choose a register to open. Legal and compliance records are grouped here
+    so you can go straight to what you need.
+  </p>
+
+  <div class="row g-3 mt-2">
+    <div class="col-12 col-sm-6 col-lg-4" *ngFor="let tile of tiles">
+      <a [routerLink]="tile.link"
+         class="card border-0 h-100 ld-tile text-decoration-none"
+         [class.ld-tile--primary]="tile.primary">
+        <div class="card-body p-3 d-flex flex-column align-items-start h-100">
+          <div class="ld-tile-ic" [style.background]="tile.accent + '18'" [style.color]="tile.accent">
+            <i class="bi" [ngClass]="tile.icon"></i>
+          </div>
+          <div class="d-flex w-100 justify-content-between align-items-start mt-3">
+            <h2 class="ld-tile-title mb-0">{{ tile.title }}</h2>
+            <i class="bi bi-arrow-up-right ld-tile-arr"></i>
+          </div>
+          <p class="ld-tile-desc mb-0 mt-1">{{ tile.desc }}</p>
+          <span class="ld-tile-meta mt-auto">{{ tile.meta }}</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</div>

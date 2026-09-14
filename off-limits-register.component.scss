@@ -1,0 +1,152 @@
+/* =====================================================================
+   Off-Limits & Non-Solicit Register — component styles
+   Tokens follow the existing LegalDash system (styles.scss / _variables):
+   primary #0B5ED7 · ink #001529 · muted #666D80/#878a99 · radius 2px
+   ===================================================================== */
+
+$ol-blue:   #0B5ED7;
+$ol-ink:    #001529;
+$ol-muted:  #666D80;
+$ol-muted2: #878a99;
+$ol-line:   #f0f0f0;
+$ol-border: #EFEFEF;
+
+:host { display: block; }
+
+.ol-page { padding: 0.25rem 0.25rem 1.5rem; }
+
+/* Breadcrumb */
+.ol-crumb {
+  font-size: 12px;
+  color: $ol-muted2;
+  .bi { font-size: 11px; }
+  span { color: $ol-ink; }
+}
+.ol-crumb-home { color: $ol-blue; font-weight: 600; text-decoration: none;
+  &:hover { text-decoration: underline; } }
+
+/* Guidance banner — visible but not dominant */
+.ol-guidance {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  background: #fef8ea;
+  border: 1px solid #f6e2b0;
+  border-left: 3px solid #f6b749;
+  border-radius: 2px;
+  padding: 0.7rem 0.95rem;
+  .bi { color: #c98a12; font-size: 1rem; line-height: 1.4; }
+  p { font-size: 12.5px; line-height: 1.6; color: #4a4436; }
+}
+
+/* Summary stat cards */
+.ol-stats .ol-stat { border-left: 3px solid $ol-blue; }
+.ol-stat-num { font-size: 26px; font-weight: 600; color: $ol-ink; line-height: 1.1; }
+.ol-stat-lbl { margin-top: 2px; font-size: 11.5px; color: $ol-muted2; }
+
+/* Region tabs */
+.ol-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  border-bottom: 1px solid #eef0f3;
+  padding: 0.6rem 0.9rem 0;
+}
+.ol-tab {
+  border: 0;
+  background: none;
+  border-bottom: 2px solid transparent;
+  padding: 5px 14px 9px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: $ol-muted;
+  &.active { color: $ol-blue; border-bottom-color: $ol-blue; font-weight: 600; }
+}
+
+/* Controls row */
+.ol-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 0.9rem;
+  @media (min-width: 768px) { flex-direction: row; align-items: center; }
+}
+.ol-search {
+  position: relative;
+  flex: 1 1 auto;
+  .bi { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: $ol-muted2; }
+  .form-control { padding-left: 36px; height: 42px; }
+}
+.ol-team-select { min-width: 170px; }
+:host ::ng-deep .ol-team-select .ant-select-selector { height: 42px; display: flex; align-items: center; }
+
+.ol-dd-btn,
+.ol-reset {
+  height: 42px;
+  border: 1px solid $ol-border;
+  background: #fff;
+  border-radius: 2px;
+  color: #3a4150;
+  font-size: 13.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.ol-reset { width: 42px; justify-content: center; color: $ol-muted2; }
+
+.ol-dd-menu { padding: 6px; border-radius: 2px; min-width: 200px; }
+.ol-dd-head { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px;
+  color: $ol-muted2; padding: 4px 8px; margin: 0; }
+.ol-dd-check { display: flex; align-items: center; gap: 8px; padding: 6px 8px; font-size: 13.5px;
+  color: #3a4150; cursor: pointer; border-radius: 2px;
+  &:hover { background: #f5f8fd; }
+  input { accent-color: $ol-blue; } }
+
+/* Table tweaks (base ant-table styling comes from global styles.scss) */
+.ol-table { margin-top: 0; }
+.ol-client { font-weight: 500; color: $ol-ink; }
+.ol-date { color: #50565E; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ol-over { color: #50565E; }
+
+/* Scope cell */
+.ol-scope { max-width: 260px; }
+.ol-scope-text { margin: 0; font-size: 12.5px; line-height: 1.4; color: #50565E;
+  &.clamp { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } }
+.ol-scope-detail { margin-top: 4px; font-size: 12.5px; color: #50565E;
+  .ol-scope-k { font-weight: 600; color: $ol-ink; } }
+.ol-scope-note { margin: 6px 0 0; padding-top: 6px; border-top: 1px solid $ol-line; font-size: 11.5px; color: $ol-muted2; }
+.ol-scope-toggle { display: inline-block; margin-top: 2px; font-size: 11.5px; font-weight: 600; color: $ol-blue; cursor: pointer;
+  &:hover { text-decoration: underline; } }
+
+/* -------- Tag base -------- */
+.ol-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  margin: 0 5px 4px 0;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 18px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+/* -------- Team tag colours -------- */
+.ol-tag-team-sh-leadership     { background:#eaedf5; color:#405189; border-color:#d4dae8; }
+.ol-tag-team-global-insurance  { background:#fde9f1; color:#c13d70; border-color:#f6cfe0; }
+.ol-tag-team-sh-consulting     { background:#e4f4f7; color:#2b8391; border-color:#c8e8ed; }
+.ol-tag-team-executive-search  { background:#e3edfb; color:#0B5ED7; border-color:#c7dcf6; }
+.ol-tag-team-interim           { background:#efeafe; color:#6b45d6; border-color:#ddd2fb; }
+.ol-tag-team-legal             { background:#fdefe1; color:#b96a1a; border-color:#f6ddc2; }
+
+/* -------- Region tag colours -------- */
+.ol-tag-region-global          { background:#eaedf5; color:#405189; border-color:#d4dae8; }
+.ol-tag-region-north-america   { background:#e3edfb; color:#0B5ED7; border-color:#c7dcf6; }
+.ol-tag-region-europe          { background:#e2f7ec; color:#1f9a56; border-color:#c6efd8; }
+.ol-tag-region-asia            { background:#fdf4e0; color:#b5842a; border-color:#f6e7c2; }
+.ol-tag-region-emea            { background:#efeafe; color:#6b45d6; border-color:#ddd2fb; }
+.ol-tag-region-apac            { background:#e4f4f7; color:#2b8391; border-color:#c8e8ed; }
+
+/* fallback for any unmapped value */
+[class*="ol-tag-team-"], [class*="ol-tag-region-"] { }
+.ol-tag:not([class*="team-"]):not([class*="region-"]) { background:#f0f1f3; color:#50565E; border-color:#e2e4e8; }
