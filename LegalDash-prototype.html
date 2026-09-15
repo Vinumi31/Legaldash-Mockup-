@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>LegalDash — Off-Limits &amp; Non-Solicit Register</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
   :root{
     --navy:#0e1c3d; --navy2:#16264f; --ink:#1f2a44; --slate:#475569; --slate2:#64748b;
     --muted:#94a3b8; --line:#e6ebf3; --bg:#f3f6fb; --card:#ffffff; --blue:#2563eb;
     --blueDk:#1d4ed8; --blueSoft:#e8eefc; --green:#22c55e; --greenDk:#16a34a;
     --amber:#b45309; --amberSoft:#fdf3e3; --headerBg:#f6f8fc;
   }
-  *{box-sizing:border-box;}
+  *{box-sizing:border-box; font-family:'Poppins',sans-serif;}
   html,body{margin:0;padding:0;}
   body{
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -450,8 +451,7 @@
    UI ONLY override — prototype behaviour/data unchanged.
    ========================================================== */
 
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-  /* ---- LegalDash design tokens (from styles.scss / _variables.scss) ---- */
+    /* ---- LegalDash design tokens (from styles.scss / _variables.scss) ---- */
   :root{
     --blue:#0B5ED7; --blue2:#1853db; --ink:#001529; --muted:#666D80; --muted2:#878a99;
     --bg:#F9FDFF; --line:#f0f0f0; --border:#EFEFEF; --thead:#F3F3F3; --card:#ffffff;
@@ -622,6 +622,228 @@
   @keyframes navSlideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}
   @keyframes navFadeIn{from{opacity:0}to{opacity:1}}
   @media(max-width:700px){.nav-panel{width:290px}.nav-panel-header{padding:18px 16px 15px}}
+
+  /* ---- Final LegalDash visual refinements ---- */
+  body, button, input, select, textarea { font-family: Poppins, Arial, sans-serif; }
+
+  /* Compact back navigation */
+  .page-back-row { margin: 0 0 12px; }
+  .offlimits-back {
+    display:inline-flex; align-items:center; gap:5px;
+    margin:0; padding:3px 0;
+    background:transparent; border:0; box-shadow:none;
+    color:var(--blue); font-size:12px; font-weight:500;
+    line-height:18px;
+  }
+  .offlimits-back:hover { text-decoration:underline; color:var(--blueDk); }
+  .offlimits-back .ico { color:currentColor; }
+
+  /* Remove the yellow treatment from the Off-Limits guidance text */
+  .guidance {
+    background:#fff;
+    border:1px solid var(--border);
+    border-left:3px solid var(--blue);
+  }
+  .guidance .ico { color:var(--blue); }
+  .guidance p { color:var(--muted); font-size:12px; line-height:1.55; }
+
+  /* Keep the other LegalDash pages visually consistent and more compact */
+  .stub h1,
+  .change-title-card .agreement-title,
+  .reports-title-card .agreement-title,
+  .trusted-title-card .agreement-title,
+  .agreement-title,
+  .contract-title,
+  .proposal-title {
+    font-family:Poppins, Arial, sans-serif;
+    font-size:20px;
+    line-height:1.3;
+    font-weight:600;
+    letter-spacing:-.01em;
+    color:var(--ink);
+  }
+  .stub p { font-size:12px; line-height:1.55; color:var(--muted); }
+  .change-table, .trusted-table, .reports-list-card, .contract-table, .proposal-table { font-family:Poppins, Arial, sans-serif; }
+  .change-table th, .trusted-table th, .contract-table th, .proposal-table th { font-size:12px; font-weight:500; }
+  .change-table td, .trusted-table td, .contract-table td, .proposal-table td { font-size:12px; }
+  .report-row { font-size:12px; }
+  .report-row .report-left span { font-size:12px; }
+  .add-template-btn, .report-download { font-size:12px; }
+
+  /* Slightly tighten page title/header spacing */
+  .offlimits-title-wrap h1, .reg-title { font-size:20px; line-height:1.3; font-weight:600; }
+  .change-title-card, .reports-title-card, .trusted-title-card { min-height:78px; padding:18px 20px; }
+
+
+  /* Poppins applied consistently across the complete prototype */
+  html, body, body *, button, input, select, textarea { font-family:'Poppins',sans-serif !important; }
+
+</style>
+
+<style id="final-layout-refinement">
+/* Final LegalDash spacing refinement — keeps existing functionality unchanged */
+.wrap-lg { max-width: 1320px; margin: 0 auto; padding: 14px 22px 24px; }
+
+/* Compact back navigation */
+.page-back-row { height: 38px; padding-top: 6px; margin: 0 0 8px; align-items:flex-start; }
+.offlimits-back {
+  display:inline-flex; align-items:center; gap:5px;
+  margin:0; padding:2px 0;
+  background:transparent; border:0; box-shadow:none;
+  color:var(--blue); font-size:13px; font-weight:500; line-height:20px;
+}
+.offlimits-back:hover { background:transparent; text-decoration:underline; color:var(--blueDk); }
+
+/* Compact Contracts / Proposals switch */
+.proposal-tabs { display:flex; justify-content:flex-end; gap:6px; margin:0; }
+.proposal-tab {
+  min-width:88px; height:34px; padding:0 14px;
+  border:1px solid var(--blue); border-radius:6px;
+  background:#fff; color:var(--blue); font-size:12px; font-weight:600;
+  line-height:32px;
+}
+.proposal-tab.active { background:var(--blue); color:#fff; }
+
+/* Keep the page action and register switch on one compact line */
+.register-header-row {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; margin:0 0 12px;
+}
+.register-header-row .page-back-row {
+  height:auto; padding:0; margin:0;
+}
+.register-header-row .offlimits-back {
+  font-size:13px; line-height:20px;
+}
+.register-header-row .proposal-tabs {
+  flex:0 0 auto;
+}
+
+
+/* Bring register/table cards closer to the page header */
+.proposal-card, .contract-card {
+  border-radius:8px;
+  box-shadow:0 4px 14px rgba(37,99,235,.08);
+}
+.proposal-toolbar, .contract-toolbar { padding:12px 16px 10px; }
+.proposal-card .tscroll, .contract-card .tscroll { margin:0 10px 10px; }
+
+/* Consistent compact headings across non-Off-Limits pages */
+.change-title-card, .reports-title-card, .trusted-title-card, .agreement-toolbar-card {
+  min-height:64px; padding:14px 18px; margin-top:0; margin-bottom:12px;
+  border-radius:6px;
+  box-shadow:0 3px 10px rgba(37,99,235,.07);
+}
+.change-title-card .agreement-title,
+.reports-title-card .agreement-title,
+.trusted-title-card .agreement-title,
+.agreement-title, .contract-title, .proposal-title {
+  font-family:Poppins, Arial, sans-serif;
+  font-size:16px; line-height:1.3; font-weight:600;
+  letter-spacing:0; color:var(--ink);
+}
+
+/* Compact tables and controls to match the existing LegalDash density */
+.change-table, .trusted-table, .contract-table, .proposal-table { font-family:Poppins, Arial, sans-serif; font-size:12px; }
+.change-table th, .trusted-table th, .contract-table th, .proposal-table th { font-size:11.5px; font-weight:500; }
+.change-table td, .trusted-table td, .contract-table td, .proposal-table td { font-size:12px; }
+
+/* Reports / Trusted User cards */
+.reports-list-card, .trusted-table-card { padding:14px 16px; box-shadow:0 3px 10px rgba(37,99,235,.07); }
+.report-row { height:62px; font-size:12px; }
+.report-left { gap:12px; font-size:13px; }
+.report-icon { width:42px; height:36px; }
+
+/* Agreement Templates */
+.agreement-toolbar-card { gap:16px; }
+.agreement-search { width:210px; height:38px; }
+.agreement-search input { font-size:13px; }
+.add-template-btn { height:38px; font-size:12px; padding:0 12px; }
+
+/* Off-Limits guidance stays clean and compact */
+.guidance { background:#fff; border:1px solid var(--border); border-left:3px solid var(--blue); border-radius:4px; padding:10px 12px; }
+.guidance p { font-size:12px; line-height:1.5; }
+
+/* Avoid oversized vertical gaps on smaller screens too */
+@media(max-width:700px){
+  .wrap-lg { padding:12px 14px 20px; }
+  .page-back-row { height:34px; }
+  .proposal-tabs { justify-content:flex-end; }
+  .proposal-tab { min-width:88px; height:34px; padding:0 12px; font-size:12px; }
+  .register-header-row { gap:10px; }
+  .change-title-card, .reports-title-card, .trusted-title-card, .agreement-toolbar-card { min-height:58px; padding:12px 14px; }
+}
+/* Off-Limits final compact refinement */
+.stats {
+  width:100%;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:12px;
+  margin:10px 0 12px;
+}
+.stat {
+  min-height:72px;
+  height:72px;
+  padding:10px 14px;
+  gap:12px;
+  border-radius:6px;
+  box-shadow:0 3px 9px rgba(30,64,175,.08);
+}
+.stat-ic { width:38px; height:38px; border-width:2px; }
+.stat-percent { width:42px; height:42px; border-width:2px; font-size:14px; }
+.stat .lbl { font-size:12px; line-height:1.25; }
+.stat .num { font-size:21px; margin-top:2px; }
+.stat-note { font-size:11px; line-height:1.25; margin-top:3px; }
+.reg { border-radius:8px; }
+.record-tabs { padding:0 14px; }
+.record-tab { font-size:13px; padding:11px 16px 9px; }
+.rtabs { padding:5px 10px 0; gap:0; }
+.rtab { font-size:12px; padding:5px 13px 8px; }
+.team-tabs { padding:5px 10px 0; gap:0; }
+.team-tab { font-size:12px; padding:5px 13px 8px; }
+.controls { padding:10px 12px; gap:8px; }
+.search input { height:38px; font-size:12px; }
+.icon-btn { height:38px; width:38px; }
+.tscroll { width:100%; }
+.tscroll table { min-width:100%; }
+.tscroll table th { padding:9px 12px; font-size:11.5px; }
+.tscroll table tbody td { padding:10px 12px; font-size:12px; }
+td.date { white-space:nowrap; }
+@media(max-width:900px){ .stats{grid-template-columns:1fr 1fr !important;} }
+@media(max-width:600px){ .stats{grid-template-columns:1fr !important;} .stat{height:auto;min-height:68px;} }
+
+</style>
+
+
+<style id="profile-poppins-refinement">
+/* Profile panel typography: use the existing LegalDash Poppins treatment consistently. */
+.profile-panel,
+.profile-panel button,
+.profile-panel input,
+.profile-panel select,
+.profile-panel textarea {
+  font-family: "Poppins", sans-serif !important;
+}
+.profile-name {
+  font-family: "Poppins", sans-serif !important;
+  font-size: 21px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.2px;
+}
+.profile-stat-top {
+  font-family: "Poppins", sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 600 !important;
+}
+.profile-stat-label {
+  font-family: "Poppins", sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+.profile-signout {
+  font-family: "Poppins", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
 </style>
 </head>
 <body>
@@ -792,7 +1014,8 @@ function getRows(){
     const okTeam = state.team==="All Teams" || r.teams.includes(state.team);
     const q = state.query.trim().toLowerCase();
     const okQuery = !q || r.client.toLowerCase().includes(q) || r.assignment.toLowerCase().includes(q)
-      || r.scope.text.toLowerCase().includes(q) || r.scope.sub.toLowerCase().includes(q);
+      || r.scope.text.toLowerCase().includes(q) || r.scope.sub.toLowerCase().includes(q)
+      || r.teams.some(t=>t.toLowerCase().includes(q)) || r.regions.some(rg=>rg.toLowerCase().includes(q)) || r.updated.toLowerCase().includes(q);
     return okArchive && okRegion && okTeam && okQuery;
   });
   const {key,dir} = state.sort;
@@ -961,8 +1184,10 @@ function proposalView(){
 
   return topbar("Proposals Register")
     + '<main class="wrap-lg">'
-      + '<div class="page-back-row"><button class="offlimits-back" data-action="nav:landing">'+icon("arrowLeft",14)+' Back to LegalDash</button></div>'
-      + '<div class="proposal-tabs"><button class="proposal-tab" data-action="nav:contracts">Contracts</button><button class="proposal-tab active">Proposals</button></div>'
+      + '<div class="register-header-row">'
+        + '<div class="page-back-row"><button class="offlimits-back" data-action="nav:landing">'+icon("arrowLeft",14)+' Back to LegalDash</button></div>'
+        + '<div class="proposal-tabs"><button class="proposal-tab" data-action="nav:contracts">Contracts</button><button class="proposal-tab active">Proposals</button></div>'
+      + '</div>'
       + '<div class="proposal-card">'
         + '<div class="proposal-toolbar"><button class="status-link">Status Definition</button>'
         + '<div class="proposal-search">'+icon("search",18)+'<input id="proposalSearch" type="text" placeholder="Search" value="'+state.proposalQuery.replace(/"/g,"&quot;")+'"></div>'
@@ -1007,8 +1232,10 @@ function contractView(){
 
   return topbar("Contracts Register")
     + '<main class="wrap-lg">'
-      + '<div class="page-back-row"><button class="offlimits-back" data-action="nav:landing">'+icon("arrowLeft",14)+' Back to LegalDash</button></div>'
-      + '<div class="proposal-tabs"><button class="proposal-tab active">Contracts</button><button class="proposal-tab" data-action="nav:proposals">Proposals</button></div>'
+      + '<div class="register-header-row">'
+        + '<div class="page-back-row"><button class="offlimits-back" data-action="nav:landing">'+icon("arrowLeft",14)+' Back to LegalDash</button></div>'
+        + '<div class="proposal-tabs"><button class="proposal-tab active">Contracts</button><button class="proposal-tab" data-action="nav:proposals">Proposals</button></div>'
+      + '</div>'
       + '<div class="contract-card">'
         + '<div class="contract-toolbar"><button class="contract-status-link">Status Definition</button>'
         + '<div class="contract-search">'+icon("search",18)+'<input id="contractSearch" type="text" placeholder="Search" value="'+state.contractQuery.replace(/"/g,"&quot;")+'"></div>'
@@ -1040,6 +1267,7 @@ function tableHead(){
     + '<th>Scope</th>'
     + '<th>'+sortHeader("Start Date","start")+'</th>';
   if(state.showEnd) h += '<th>End Date</th>';
+  h += '<th>'+sortHeader("Last Updated","updated")+'</th>';
   if(state.showOverview) h += '<th>Overview</th>';
   h += '<th>Action</th>';
   return h + '</tr>';
@@ -1047,7 +1275,7 @@ function tableHead(){
 
 function tableBody(){
   const rows = getRows();
-  const colCount = 7 + (state.showEnd?1:0) + (state.showOverview?1:0);
+  const colCount = 8 + (state.showEnd?1:0) + (state.showOverview?1:0);
   if(rows.length===0){
     return '<tr><td colspan="'+colCount+'"><div class="empty"><p>No restrictions match these filters.</p>'
       + '<button data-action="reset">Clear filters</button></div></td></tr>';
@@ -1065,6 +1293,7 @@ function tableBody(){
       + '<td class="scope"><p>'+r.scope.text+'</p></td>'
       + '<td class="date tabular">'+r.start+'</td>';
     if(state.showEnd) tds += '<td class="date tabular">'+r.end+'</td>';
+    tds += '<td class="date tabular">'+r.updated+'</td>';
     if(state.showOverview) tds += '<td class="over">'+r.overview+'</td>';
     tds += '<td><button class="icon-btn" data-action="detail:'+r.assignment+'" title="View">'+icon("eye",17)+'</button></td>';
     return '<tr>'+tds+'</tr>';
