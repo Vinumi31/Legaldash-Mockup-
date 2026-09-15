@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LegalDash — Off-Limits &amp; Non-Solicit Register</title>
+<style>
+  :root{
+    --navy:#0e1c3d; --navy2:#16264f; --ink:#1f2a44; --slate:#475569; --slate2:#64748b;
+    --muted:#94a3b8; --line:#e6ebf3; --bg:#f3f6fb; --card:#ffffff; --blue:#2563eb;
+    --blueDk:#1d4ed8; --blueSoft:#e8eefc; --green:#22c55e; --greenDk:#16a34a;
+    --amber:#b45309; --amberSoft:#fdf3e3; --headerBg:#f6f8fc;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased;
+  }
+  button{font-family:inherit; cursor:pointer;}
+  .ico{display:inline-block; vertical-align:middle; flex:none;}
+  .tabular{font-variant-numeric:tabular-nums;}
+  .clamp2{display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+
+  /* Top bar */
+  .topbar{position:sticky; top:0; z-index:30; display:flex; align-items:center; justify-content:space-between;
+    background:var(--card); border-bottom:1px solid var(--line); padding:12px 20px;}
+  .tb-left{display:flex; align-items:center; gap:16px;}
+.sh-logo-img{height:32px; width:auto; display:block; object-fit:contain;}
+  .sh-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:2px;}
+  .sh-grid span{height:6px; width:6px; border-radius:2px;}
+  .sh-name{line-height:1;}
+  .sh-name .a{font-size:14px; font-weight:800; letter-spacing:-.02em; color:var(--navy);}
+  .sh-name .b{font-size:12px; font-weight:600; letter-spacing:.04em; color:var(--blue);}
+  .crumb{display:flex; align-items:center; gap:6px; padding-left:12px; font-size:14px; color:var(--slate2);}
+  .crumb .home{color:var(--blue); font-weight:600; background:none; border:none; padding:0;}
+  .crumb .home:hover{text-decoration:underline;}
+  .crumb .cur{color:var(--slate);}
+  .tb-right{display:flex; align-items:center; gap:12px;}
+  .btn-fin{display:flex; align-items:center; gap:8px; background:var(--green); color:#fff; border:none;
+    border-radius:6px; padding:8px 14px; font-size:14px; font-weight:600; box-shadow:0 1px 2px rgba(0,0,0,.08);}
+  .avatar{display:grid; place-items:center; height:40px; width:40px; border-radius:9999px;
+    border:1px solid var(--line); background:#fff; color:var(--slate2);}
+
+
+  /* Profile panel */
+  .profile-panel{position:fixed; top:58px; right:18px; width:300px; max-width:calc(100vw - 28px); background:#fff; border:1px solid #e6ebf3; border-radius:0 0 6px 6px; box-shadow:0 10px 28px rgba(16,30,54,.18); padding:24px 18px 30px; z-index:80;}
+  .profile-avatar{width:86px;height:86px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;background:#e8eefc;color:#3d8ed6;border:5px solid #edf1f7;position:relative;}
+  .profile-avatar:after{content:"";position:absolute;right:0;bottom:2px;width:11px;height:11px;border-radius:50%;background:#21c47b;border:2px solid #fff;}
+  .profile-name{text-align:center;font-size:22px;font-weight:700;color:#111827;margin-bottom:20px;}
+  .profile-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 20px;}
+  .profile-stat{background:#f4f6fa;border:1px solid #e4e9f1;border-radius:16px;text-align:center;padding:12px 8px 10px;}
+  .profile-stat-top{font-size:30px;font-weight:700;line-height:1.05;color:#1f2a44;display:flex;justify-content:center;align-items:center;gap:7px;}
+  .profile-stat-label{font-size:12px;font-weight:600;color:#64748b;margin-top:7px;}
+  .profile-section-title{font-size:13px;font-weight:800;letter-spacing:.06em;color:#64748b;margin:0 0 9px;}
+  .profile-links{display:flex;flex-direction:column;gap:8px;}
+  .profile-link{width:100%;display:grid;grid-template-columns:32px 1fr 18px;align-items:center;text-align:left;gap:8px;border:1px solid #e4e9f1;background:#f6f8fb;border-radius:14px;padding:12px 14px;color:#243452;font-size:15px;font-weight:650;}
+  .profile-link:hover{background:#eef3fb;}
+  .plink-icon{color:#64748b;display:grid;place-items:center;}
+  .plink-arrow{font-size:24px;color:#94a3b8;text-align:right;line-height:1;}
+  .profile-signout{width:100%;margin-top:18px;border:0;border-radius:11px;background:#fdebed;color:#f0444f;font-size:17px;font-weight:700;padding:13px 14px;}
+
+  /* Layout */
+  .wrap{max-width:1280px; margin:0 auto; padding:14px 18px 22px;}
+  .wrap-lg{max-width:1280px; margin:0 auto; padding:16px 20px;}
+
+  /* Landing */
+  .eyebrow{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--blue);}
+  h1.title{margin:4px 0 0; font-size:30px; font-weight:800; letter-spacing:-.02em; color:var(--navy);}
+  .lead{margin-top:8px; max-width:640px; font-size:14px; color:var(--slate);}
+  .tiles{display:grid; grid-template-columns:repeat(4, 290px); justify-content:stretch; gap:20px; margin-top:10px;}
+  @media(max-width:900px){.tiles{grid-template-columns:repeat(2,220px); justify-content:center;}}
+  @media(max-width:620px){.tiles{grid-template-columns:220px; justify-content:center;}}
+  .tile{display:flex; flex-direction:column; align-items:flex-start; text-align:left; background:var(--card);
+    border:1px solid var(--line); border-radius:16px; padding:16px; min-height:220px; box-shadow:0 1px 2px rgba(16,30,54,.05);
+    transition:transform .15s ease, box-shadow .15s ease;}
+  .tile:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(16,30,54,.10);}
+  .tile.primary{border-color:#be123c;}
+  .tile-ic{display:grid; place-items:center; height:48px; width:48px; border-radius:12px;}
+  .tile-head{display:flex; width:100%; align-items:flex-start; justify-content:space-between; gap:8px; margin-top:16px;}
+  .tile-head h2{margin:0; font-size:18px; font-weight:700; color:var(--ink);}
+  .tile-head .arr{color:var(--muted); margin-top:2px; transition:transform .15s ease;}
+  .tile:hover .tile-head .arr{transform:translate(2px,-2px);}
+  .tile p{margin:6px 0 0; font-size:14px; color:var(--slate2);}
+  .tile .meta{margin-top:16px; border:1px solid var(--line); color:var(--slate2); border-radius:9999px;
+    padding:4px 10px; font-size:12px; font-weight:500;}
+
+  /* Stub */
+  .stub{max-width:768px; margin:0 auto; padding:64px 20px; text-align:center;}
+  .stub-ic{margin:0 auto; display:grid; place-items:center; height:56px; width:56px; border-radius:16px;
+    background:var(--blueSoft); color:var(--blue);}
+  .stub h1{margin:20px 0 0; font-size:24px; font-weight:700; color:var(--navy);}
+  .stub p{margin:8px auto 0; max-width:420px; font-size:14px; color:var(--slate);}
+  .btn-back{margin-top:24px; display:inline-flex; align-items:center; gap:8px; background:var(--navy); color:#fff;
+    border:none; border-radius:8px; padding:10px 16px; font-size:14px; font-weight:600;}
+  .page-back{display:flex; justify-content:flex-start; margin-bottom:16px;}
+  .page-back .btn-back{margin-top:0;}
+
+  .change-page{padding-top:0;}
+  .change-title-card{background:var(--card); border:1px solid var(--line); border-radius:6px; min-height:98px; display:flex; align-items:center; padding:20px; box-shadow:0 4px 14px rgba(37,99,235,.10); margin-bottom:24px;}
+  .change-table-card{background:var(--card); border:1px solid var(--line); border-radius:6px; padding:22px; box-shadow:0 4px 14px rgba(37,99,235,.10);}
+  .change-table{width:100%; border-collapse:separate; border-spacing:0; font-size:14px;}
+  .change-table th{background:#f1f1f1; color:var(--ink); text-align:left; font-weight:600; padding:11px 12px; border-bottom:1px solid #dfe5ee;}
+  .change-table th:first-child{width:54px;} .change-table th:last-child{width:110px;}
+  .change-table th svg{float:right; opacity:.35;}
+  .change-empty{height:142px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#c0c6d0; gap:8px;}
+  .empty-file{color:#d8dce2;}
+
+  /* Register table clarity */
+  .proposal-card .tscroll, .contract-card .tscroll{
+    margin:0 12px 12px;
+    border:1px solid #dfe5ee;
+    border-radius:4px;
+    overflow:auto;
+    background:#fff;
+  }
+  .proposal-card .proposal-table, .contract-card .contract-table{
+    border-collapse:separate;
+    border-spacing:0;
+  }
+  .proposal-card .proposal-table thead th, .contract-card .contract-table thead th{
+    border-top:none;
+    border-bottom:1px solid #d8dee8;
+  }
+  .proposal-card .proposal-table tbody td, .contract-card .contract-table tbody td{
+    border-bottom:1px solid #e6eaf0;
+  }
+  .proposal-card .proposal-table tbody tr:last-child td, .contract-card .contract-table tbody tr:last-child td{
+    border-bottom:none;
+  }
+
+  /* Contract Register */
+  .contract-card{background:var(--card); border:1px solid var(--line); border-radius:12px;
+    box-shadow:0 8px 22px rgba(30,64,175,.10); overflow:hidden;}
+  .contract-toolbar{display:flex; align-items:center; justify-content:flex-end; gap:8px; padding:18px 20px 22px;}
+  .contract-search{position:relative; width:235px;}
+  .contract-search .ico{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none;}
+  .contract-search input{height:46px; width:100%; border:1px solid var(--line); border-radius:5px; padding:0 12px 0 40px;
+    font-size:14px; color:var(--ink); outline:none;}
+  .contract-search input:focus{border-color:var(--blue);}
+  .contract-status-link{border:none; background:none; color:var(--blue); font-size:14px; font-weight:600; margin-right:2px;}
+  .contract-table{min-width:1100px;}\n  .contract-table th.start-date-col, .contract-table td.start-date-col{white-space:nowrap; min-width:120px;}
+  .contract-table thead th{background:#f1f1f1; padding:12px 9px; color:var(--ink);}
+  .contract-table thead th .ico{float:right; color:#c2c2c2; margin-left:8px;}
+  .contract-table tbody td{padding:10px 9px; vertical-align:middle; white-space:nowrap;}
+  .contract-table td.client{font-weight:500;}
+  .contract-table td.assign span{font-weight:500;}
+  .contract-table .revenue{color:var(--blue); font-weight:600;}
+  .contract-status{display:inline-flex; align-items:center; justify-content:center; min-width:146px; padding:7px 12px;
+    border:1px solid; border-radius:4px; font-size:13px; font-weight:500;}
+  .contract-status.approved{color:#16a34a; border-color:#22c55e; background:#fff;}
+  .contract-status.revision{color:#ef4444; border-color:#ef4444; background:#fff;}
+  .doc-status{display:inline-flex; align-items:center; justify-content:center; min-width:148px; padding:7px 12px;
+    border:1px solid; border-radius:4px; font-size:13px; font-weight:500;}
+  .doc-status.initiated{color:#ef4444; border-color:#ef4444;}
+  .doc-status.bypassed{color:#3730a3; border-color:#4f63c6;}
+  .contract-actions{display:flex; align-items:center; gap:10px;}
+  .contract-actions button{border:none; background:none; color:var(--blue); padding:2px;}
+  .contract-actions button:hover{color:var(--blueDk);}
+  .contract-foot{display:flex; align-items:center; justify-content:flex-end; gap:24px; padding:10px 16px; color:var(--slate2);
+    font-size:12px; border-top:1px solid var(--line);}
+  @media(max-width:900px){
+    .contract-toolbar{flex-wrap:wrap; justify-content:flex-end; padding:24px 16px;}
+    .contract-search{width:200px;}
+    .contract-card .tscroll{margin:0 12px;}
+  }
+  @media(max-width:620px){
+    .contract-toolbar{justify-content:center;}
+  }
+
+  /* Proposal Register */
+  .proposal-back{display:flex; justify-content:flex-start; margin-bottom:8px;}
+  .btn-back-outline{display:inline-flex; align-items:center; gap:7px; background:#fff; color:var(--blue);
+    border:1px solid #cbd5e1; border-radius:7px; padding:7px 11px; font-size:13px; font-weight:600;}
+  .btn-back-outline:hover{background:#f8fafc;}
+  .proposal-tabs{display:flex; justify-content:flex-end; gap:10px; margin-bottom:10px;}
+  .proposal-tab{min-width:112px; height:48px; padding:0 18px; border:1px solid var(--blue); border-radius:10px;
+    background:#fff; color:var(--blue); font-size:15px; font-weight:600;}
+  .proposal-tab.active{background:var(--blue); color:#fff;}
+  .proposal-card{background:var(--card); border:1px solid var(--line); border-radius:12px;
+    box-shadow:0 8px 22px rgba(30,64,175,.10); overflow:hidden;}
+  .proposal-toolbar{display:flex; align-items:center; justify-content:flex-end; gap:8px; padding:18px 20px 22px;}
+  .status-link{border:none; background:none; color:var(--blue); font-size:14px; font-weight:600; margin-right:2px;}
+  .proposal-search{position:relative; width:235px;}
+  .proposal-search .ico{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none;}
+  .proposal-search input{height:46px; width:100%; border:1px solid var(--line); border-radius:5px; padding:0 12px 0 40px;
+    font-size:14px; color:var(--ink); outline:none;}
+  .proposal-search input:focus{border-color:var(--blue);}
+  .search-btn{height:46px; width:50px; display:grid; place-items:center; border:none; border-radius:5px;
+    background:var(--blue); color:#fff;}
+  .advanced-btn{height:46px; padding:0 18px; border:none; border-radius:5px; background:#9ca3af; color:#fff;
+    font-size:14px; font-weight:600;}
+  .proposal-table{min-width:900px;}
+  .proposal-table thead th{background:#f1f1f1; padding:12px 9px; color:var(--ink);}
+  .proposal-table thead th .ico{float:right; color:#c2c2c2; margin-left:8px;}
+  .proposal-table tbody td{padding:10px 9px; vertical-align:middle;}
+  .proposal-table td.client{font-weight:500;}
+  .proposal-table td.assign span{font-weight:500;}
+  .revenue{color:var(--blue); font-weight:600;}
+  .status{display:inline-flex; align-items:center; justify-content:center; min-width:100px; padding:7px 12px;
+    border:1px solid; border-radius:4px; font-size:13px; font-weight:500;}
+  .status.progress{color:var(--blue); border-color:var(--blue); background:#fff;}
+  .status.won{color:#16a34a; border-color:#22c55e; background:#fff;}
+  .status.lost{color:#ef4444; border-color:#ef4444; background:#fff;}
+  .stage{display:inline-flex; align-items:center; justify-content:center; min-width:152px; min-height:42px;
+    padding:6px 14px; border:1px solid #3bb4d5; border-radius:4px; color:#2d9ec0; font-weight:600; text-align:center;}
+  .actions{display:flex; align-items:center; gap:10px;}
+  .actions button{border:none; background:none; color:var(--blue); padding:2px;}
+  .actions button:hover{color:var(--blueDk);}
+  .proposal-foot{display:flex; align-items:center; justify-content:flex-end; gap:24px; padding:10px 16px; color:var(--slate2);
+    font-size:12px; border-top:1px solid var(--line);}
+  .proposal-foot .pager{margin-left:0;}
+  @media(max-width:900px){
+    .proposal-toolbar{flex-wrap:wrap; justify-content:flex-end; padding:24px 16px;}
+    .proposal-search{width:200px;}
+  }
+  @media(max-width:620px){
+    .proposal-tabs{justify-content:center;}
+    .proposal-tab{min-width:105px;}
+    .proposal-toolbar{justify-content:center;}
+  }
+
+  /* Off-Limits Detail Panel */
+  .modal-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.48);display:flex;align-items:flex-start;justify-content:center;padding:22px 8px;overflow:auto;}
+  .detail-panel{width:min(874px,calc(100vw - 32px));min-height:545px;background:#fff;border-radius:4px;box-shadow:0 18px 50px rgba(0,0,0,.25);overflow:hidden;}
+  .detail-head{display:grid;grid-template-columns:1fr 1fr auto;align-items:center;gap:28px;min-height:82px;padding:16px 26px;background:#e8f3ff;border-bottom:1px solid #d7e7f7;}
+  .detail-label{font-size:13px;color:#0e1c3d;margin-bottom:5px}.detail-value{font-size:14px;font-weight:700;color:var(--blue)}
+  .detail-close{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 11px;border:1px solid var(--blue);border-radius:4px;background:#fff;color:var(--blue);font-size:13px;font-weight:600}
+  .detail-body{padding:48px 42px 58px}.detail-field{margin-bottom:34px}.detail-field:last-child{margin-bottom:0}
+  .detail-field label{display:block;margin-bottom:12px;font-size:15px;color:#1f2a44}
+  .toggle{display:inline-flex;border:1px solid #d7dce4;border-radius:2px;overflow:hidden}.toggle button{height:28px;padding:0 10px;border:0;border-right:1px solid #d7dce4;background:#fff;color:#334155;font-size:13px}.toggle button:last-child{border-right:0}.toggle button.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .detail-textarea{width:100%;height:36px;resize:vertical;border:1px solid #d5d9df;border-radius:2px;padding:8px 12px;font:13px inherit;color:#334155;background:#f8f8f8}.detail-textarea:disabled{color:#aeb7c2}
+  .detail-heading{margin:0 0 12px;font-size:20px;color:#0e1c3d}.dept-pills{display:flex;flex-wrap:wrap;gap:8px}.dept-pill{display:inline-flex;align-items:center;background:var(--blue);color:#fff;border-radius:2px;padding:5px 9px;font-size:12px;font-weight:600}
+  .overview-heading{margin-top:28px}.detail-overview{margin:0;font-size:13px;line-height:1.5;color:#1f2a44}
+  @media(max-width:650px){.detail-head{grid-template-columns:1fr;gap:12px}.detail-close{justify-self:start}.detail-body{padding:30px 24px 40px}}
+
+  /* Compact Off-Limits page header */
+  .offlimits-header{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:4px;}
+  .offlimits-title-wrap{display:flex; align-items:center; gap:14px; min-width:0; flex:1;}
+  .offlimits-title-wrap .reg-title{margin:0;}
+  .offlimits-title-wrap .guidance{margin:0; padding:0; border:0; background:transparent;}
+  .offlimits-title-wrap .guidance p{margin:0;}
+  .offlimits-back{display:inline-flex; align-items:center; gap:6px; flex:none; height:32px; padding:0 10px;
+    border:1px solid #cbd5e1; border-radius:6px; background:#fff; color:var(--blue); font-size:12px; font-weight:600;}
+  .offlimits-back:hover{background:#f7faff;}
+  .page-back-row{height:78px; padding-top:22px; display:flex; align-items:flex-start; justify-content:flex-start;}
+  .offlimits-reg-card{margin-top:4px;}
+
+  /* Register header */
+  h1.reg-title{margin:0; font-size:24px; font-weight:800; letter-spacing:-.02em; color:var(--navy);}
+  .guidance{margin-top:12px; display:flex; align-items:flex-start; gap:12px; background:transparent;
+    border:0; border-radius:0; padding:0; color:var(--slate);}
+  .guidance .ico{color:var(--slate2); margin-top:2px;}
+  .guidance p{margin:0; font-size:13px; line-height:1.6;}
+
+  /* Off-Limits Stat Card */
+  .stats{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px; margin:10px 0 14px; align-items:stretch;}
+  .stat{width:auto; max-width:none; min-height:92px; display:flex; align-items:center; gap:14px;
+    background:var(--card); border:1px solid var(--line); border-radius:9px; padding:14px 18px;
+    box-shadow:0 5px 14px rgba(30,64,175,.08);}
+  .stat-ic{display:grid; place-items:center; width:44px; height:44px; flex:none;
+    border:3px solid #f0a500; border-radius:50%; color:#f0a500; background:#fff;}
+  .stat-percent{display:grid; place-items:center; width:58px; height:58px; flex:none;
+    border:3px solid var(--blue); border-radius:50%; color:var(--blue); background:#fff;
+    font-size:16px; font-weight:800;}
+  .stat-copy{min-width:0; flex:1;}
+  .stat .lbl{display:flex; align-items:center; gap:7px; margin:0; font-size:14px; font-weight:500; color:var(--ink);}
+  .stat .num{display:block; margin-top:4px; font-size:24px; font-weight:800; letter-spacing:-.02em; color:var(--navy);}
+  .stat-note{margin:5px 0 0; font-size:12px; line-height:1.45; color:var(--slate2);}
+  .stat-note{margin:12px 0 0; font-size:12px; line-height:1.45; color:var(--slate2);}
+  @media(max-width:900px){.stats{grid-template-columns:1fr 1fr;}}
+  @media(max-width:600px){.stats{grid-template-columns:1fr;}.stat{width:100%;}}
+
+
+  /* Option 2 - compact filter */
+  .filterbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px 10px;}
+  .filter-left{display:flex;align-items:center;gap:8px;position:relative;}
+  .filter-btn{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 13px;border:1px solid #d5dce7;
+    border-radius:7px;background:#fff;color:var(--slate);font-size:13px;font-weight:600;}
+  .filter-btn:hover{border-color:#b9c6d8;background:#f8fafc;}
+  .filter-btn.active{color:var(--blue);border-color:#b9c9e3;background:#f5f9ff;}
+  .filter-count{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 5px;border-radius:10px;
+    background:var(--blue);color:#fff;font-size:11px;font-weight:700;}
+  .filter-menu{position:absolute;left:0;top:46px;z-index:30;width:310px;padding:16px;background:#fff;
+    border:1px solid #d9e0ea;border-radius:9px;box-shadow:0 12px 28px rgba(16,30,54,.15);}
+  .filter-menu h3{margin:0 0 14px;font-size:14px;color:var(--navy);}
+  .filter-field{margin-bottom:13px;}
+  .filter-field:last-of-type{margin-bottom:16px;}
+  .filter-field label{display:block;margin-bottom:6px;font-size:12px;font-weight:600;color:var(--slate2);}
+  .filter-select{width:100%;height:38px;border:1px solid #d7dee8;border-radius:6px;background:#fff;padding:0 10px;
+    color:var(--slate);font-size:13px;outline:none;}
+  .filter-select:focus{border-color:var(--blue);}
+  .filter-actions{display:flex;justify-content:flex-end;gap:8px;padding-top:4px;border-top:1px solid #edf0f4;}
+  .filter-clear{height:34px;padding:0 11px;border:1px solid #d5dce7;border-radius:6px;background:#fff;color:var(--slate);font-size:12px;font-weight:600;}
+  .filter-apply{height:34px;padding:0 13px;border:1px solid var(--blue);border-radius:6px;background:var(--blue);color:#fff;font-size:12px;font-weight:600;}
+  .result-count{font-size:12px;color:var(--slate2);}
+
+  /* Register card */
+  .reg{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:0 1px 2px rgba(16,30,54,.05);}
+  .record-tabs{display:flex; gap:0; border-bottom:1px solid var(--line); padding:0 18px;}
+  .record-tab{border:0; background:transparent; color:#64748b; font-size:14px; font-weight:600; padding:14px 18px 12px; position:relative; cursor:pointer;}
+  .record-tab:hover{color:#1d4ed8;}
+  .record-tab.active{color:#1769e0;}
+  .record-tab.active:after{content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:#1769e0; border-radius:2px 2px 0 0;}
+  .check-col{width:42px; min-width:42px; text-align:center !important;}
+  .check-wrap{display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; cursor:pointer; position:relative;}
+  .check-wrap input{position:absolute; opacity:0; width:18px; height:18px; margin:0; cursor:pointer;}
+  .checkmark{width:16px; height:16px; border:1px solid #cbd5e1; border-radius:2px; background:#fff; display:block; box-sizing:border-box;}
+  .check-wrap input:checked + .checkmark{background:#1769e0; border-color:#1769e0; position:relative;}
+  .check-wrap input:checked + .checkmark:after{content:""; position:absolute; left:4px; top:1px; width:5px; height:9px; border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg);}
+  .archive-action{margin-left:0;}
+  .archive-action:disabled{opacity:.45; cursor:not-allowed;}
+  .rtabs{display:flex; flex-wrap:wrap; gap:2px; border-bottom:1px solid var(--line); padding:8px 12px 0;}
+  .rtab{border:none; background:none; border-bottom:2px solid transparent; padding:5px 12px 9px; font-size:13px;
+    font-weight:600; color:var(--slate2); white-space:nowrap;}
+  .rtab.active{color:var(--blue); border-bottom-color:var(--blue);}
+
+  .team-tabs{display:flex; flex-wrap:wrap; gap:2px; border-bottom:1px solid var(--line); padding:7px 12px 0;}
+  .team-tab{border:none; background:none; border-bottom:2px solid transparent; padding:5px 12px 9px;
+    font-size:13px; font-weight:600; color:var(--slate2); white-space:nowrap;}
+  .team-tab.active{color:var(--blue); border-bottom-color:var(--blue);}
+
+  .controls{display:flex; flex-direction:column; gap:12px; padding:16px;}
+  @media(min-width:768px){.controls{flex-direction:row; align-items:center;}}
+  .search{position:relative; flex:1;}
+  .search .ico{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none;}
+  .search input{height:44px; width:100%; border:1px solid var(--line); border-radius:8px; padding:0 12px 0 40px;
+    font-size:14px; color:var(--ink); outline:none;}
+  .search input:focus{border-color:var(--blue);}
+  .dd{position:relative;}
+  .dd-btn{display:flex; align-items:center; gap:8px; height:44px; border:1px solid var(--line); background:#fff;
+    border-radius:8px; padding:0 14px; font-size:14px; font-weight:500; color:var(--slate);}
+  .dd-btn .cd{color:var(--slate2);}
+  .dd-menu{position:absolute; right:0; z-index:20; margin-top:4px; background:var(--card); border:1px solid var(--line);
+    border-radius:8px; box-shadow:0 10px 24px rgba(16,30,54,.14);}
+  .dd-menu.team{width:224px; padding:4px 0;}
+  .dd-menu.cols{width:208px; padding:6px;}
+  .dd-item{display:flex; width:100%; align-items:center; justify-content:space-between; background:none; border:none;
+    padding:8px 12px; text-align:left; font-size:14px; color:var(--slate);}
+  .dd-item:hover{background:#f8fafc;}
+  .dd-item.on{color:var(--blue);}
+  .cols-h{padding:4px 8px; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:var(--muted);}
+  .chk{display:flex; align-items:center; gap:10px; padding:8px; border-radius:6px; font-size:14px; color:var(--slate); cursor:pointer;}
+  .chk:hover{background:#f8fafc;}
+  .box{display:grid; place-items:center; height:16px; width:16px; border-radius:4px; border:1px solid var(--muted); background:#fff; color:#fff;}
+  .box.on{background:var(--blue); border-color:var(--blue);}
+  .icon-btn{display:grid; place-items:center; height:44px; width:44px; border:1px solid var(--line); background:#fff;
+    border-radius:8px; color:var(--slate2);}
+
+  /* Table */
+  .tscroll{overflow-x:auto;}
+  table{width:100%; border-collapse:collapse; font-size:14px;}
+  thead th{background:var(--headerBg); color:var(--slate); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:12px 16px; text-align:left; font-weight:600; white-space:nowrap;}
+  th .sortbtn{display:flex; align-items:center; gap:6px; background:none; border:none; padding:0; font:inherit;
+    font-weight:600; color:var(--slate);}
+  th .sortbtn .ico{color:var(--muted);}
+  th .sortbtn.active .ico{color:var(--blue);}
+  th .sortbtn.asc .ico{transform:rotate(180deg);}
+  tbody td{border-bottom:1px solid var(--line); padding:16px; vertical-align:top;}
+  td.client{font-weight:600; color:var(--ink);}
+  td.assign span{color:var(--blue); font-weight:600;}
+  td.date{color:var(--slate); white-space:nowrap;}
+  td.over{color:var(--slate); font-size:13px;}
+  .pills{display:flex; flex-wrap:wrap; gap:6px;}
+  .pill{display:inline-flex; align-items:center; border-radius:9999px; padding:4px 10px; font-size:12px; font-weight:600; white-space:nowrap;}
+  td.scope{color:var(--slate); min-width:320px;}
+  td.scope p{margin:0; font-size:13px; line-height:1.35;}
+  .scope-pop .note{margin:8px 0 0; padding-top:8px; border-top:1px solid var(--line); font-size:12px; color:var(--slate2);}
+  .empty{padding:48px 16px; text-align:center;}
+  .empty p{margin:0; font-size:14px; font-weight:500; color:var(--slate);}
+  .empty button{margin-top:4px; background:none; border:none; font-size:14px; font-weight:600; color:var(--blue);}
+  .empty button:hover{text-decoration:underline;}
+
+  .rfoot{display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--line);
+    padding:12px 16px; font-size:12px; color:var(--slate2);}
+  .pager{display:flex; align-items:center; gap:4px;}
+  .pager button{display:grid; place-items:center; height:28px; width:28px; border-radius:6px; border:1px solid var(--line);
+    background:#fff; color:var(--muted);}
+  .pager button.cur{background:var(--blue); border-color:var(--blue); color:#fff; font-weight:600; font-size:12px;}
+
+  .agreement-page{padding-top:0;}
+  .agreement-toolbar-card{margin-top:24px;background:#fff;border:1px solid #e6ebf3;border-radius:8px;box-shadow:0 8px 18px rgba(37,99,235,.10);padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:100px;}
+  .agreement-title{font-size:17px;font-weight:700;color:#2563eb;}
+  .agreement-actions{display:flex;align-items:center;gap:6px;}
+  .agreement-search{width:235px;height:48px;border:1px solid #e2e8f0;border-radius:5px;display:flex;align-items:center;gap:12px;padding:0 14px;color:#94a3b8;background:#fff;}
+  .agreement-search input{border:0;outline:0;width:100%;font:inherit;font-size:16px;color:#334155;background:transparent;}
+  .add-template-btn{height:48px;border:0;border-radius:4px;background:#1764d8;color:#fff;padding:0 20px;font-size:16px;font-weight:700;display:flex;align-items:center;gap:9px;margin-left:0;}
+  .template-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px;margin-top:26px;}
+  .template-card{position:relative;background:#fff;border:1px solid #e6ebf3;border-radius:6px;min-height:242px;padding:48px 18px 18px;box-shadow:0 8px 15px rgba(37,99,235,.12);display:flex;flex-direction:column;}
+  .template-more{position:absolute;right:14px;top:14px;background:none;border:0;font-size:18px;line-height:1;color:#111827;font-weight:800;letter-spacing:2px;padding:0;}
+  .template-icon{width:80px;height:80px;border-radius:50%;background:#e8f0ff;color:#1260d8;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+  .template-name{font-size:16px;line-height:1.45;color:#26344d;min-height:48px;}
+  .template-region{font-size:10px;color:#aeb8c8;margin-top:auto;padding-top:14px;}
+  .template-download{position:absolute;right:14px;bottom:18px;border:0;background:none;color:#1260d8;padding:0;}
+  .template-empty{grid-column:1/-1;padding:40px;text-align:center;color:#64748b;background:#fff;border:1px solid #e6ebf3;border-radius:8px;}
+  @media(max-width:1000px){.template-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.agreement-toolbar-card{flex-direction:column;align-items:stretch}.agreement-actions{justify-content:flex-end;}}
+  @media(max-width:650px){.template-grid{grid-template-columns:1fr}.agreement-actions{flex-wrap:wrap}.agreement-search{flex:1;min-width:180px}}
+
+
+/* Reports */
+.reports-page,.trusted-page{padding-top:4px;}
+.reports-title-card,.trusted-title-card{background:#fff;border:1px solid #e7edf6;border-radius:6px;box-shadow:0 5px 14px rgba(36,99,235,.10);min-height:100px;display:flex;align-items:center;padding:22px;margin-bottom:26px;}
+.reports-list-card,.trusted-table-card{background:#fff;border:1px solid #e7edf6;border-radius:6px;box-shadow:0 5px 14px rgba(36,99,235,.10);padding:22px;}
+.report-row{height:80px;border-bottom:1px solid #e7edf6;display:flex;align-items:center;justify-content:space-between;padding:0 2px;}
+.report-row:last-child{border-bottom:0;}
+.report-left{display:flex;align-items:center;gap:18px;font-size:16px;color:#111827;}
+.report-icon{width:54px;height:44px;border-radius:4px;background:#dbe9ff;color:#0664d9;display:flex;align-items:center;justify-content:center;}
+.report-download{height:34px;padding:0 12px;border:1px solid #1769e8;background:#fff;color:#075fd5;border-radius:4px;font-weight:600;display:flex;align-items:center;gap:6px;}
+.trusted-title-card{justify-content:space-between;}
+.trusted-table{width:100%;border-collapse:collapse;table-layout:fixed;}
+.trusted-table th{background:#f3f3f3;text-align:left;padding:10px 12px;font-size:14px;font-weight:600;color:#0f172a;}
+.trusted-table td{height:47px;border-bottom:1px solid #e6eaf0;padding:0 12px;font-size:14px;color:#111827;}
+.trusted-table th:first-child,.trusted-table td:first-child{width:55px;}
+.trusted-table th:nth-child(2){width:45%;}.trusted-table th:nth-child(3){width:45%;}.trusted-table th:last-child{width:110px;}
+.user-mini{width:28px;height:28px;border-radius:5px;background:#b9d5ff;color:#1264d8;display:flex;align-items:center;justify-content:center;}
+.trusted-actions{display:flex;gap:16px;}.trusted-actions button{border:0;background:none;padding:0;color:#0664d9;}.trusted-actions button:last-child{color:#ff5b64;}
+.trusted-pager{display:flex;justify-content:flex-end;align-items:center;gap:14px;padding:17px 8px 4px;font-size:14px;}.trusted-pager button{border:0;background:none;padding:6px 9px;border-radius:2px;}.trusted-pager .active{background:#1167d9;color:#fff;}
+
+.detail-date{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:500;}
+
+  /* Proposal Overview embedded on Off-Limits page */
+  .proposal-overview-section{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 22px rgba(30,64,175,.10);overflow:hidden;}
+  .proposal-overview-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 12px;}
+  .proposal-overview-head h2{margin:0;font-size:17px;font-weight:700;color:#14213d;}
+  .proposal-overview-tools{display:flex;align-items:center;gap:8px;}
+  .proposal-overview-search{width:235px;}
+  .proposal-overview-search input{height:46px;width:100%;border:1px solid var(--line);border-radius:5px;padding:0 14px;font-size:14px;color:var(--ink);outline:none;}
+  .proposal-overview-search input:focus{border-color:var(--blue);}
+  .proposal-overview-search-btn{height:46px;width:50px;display:grid;place-items:center;border:none;border-radius:5px;background:var(--blue);color:#fff;}
+  .proposal-overview-refresh{height:46px;width:50px;display:grid;place-items:center;border:none;border-radius:5px;background:#eef2f7;color:#1f2937;}
+  .proposal-overview-tabs{display:flex;gap:36px;padding:0 20px;border-bottom:1px solid #e8edf4;}
+  .proposal-overview-tab{height:50px;padding:0;border:none;background:none;color:#333;font-size:15px;position:relative;}
+  .proposal-overview-tab.active{color:#0878ff;font-weight:600;}
+  .proposal-overview-tab.active:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#0878ff;}
+  .proposal-overview-table-wrap{margin:34px 20px 0;border-radius:4px;overflow:auto;}
+  .proposal-overview-table{width:100%;min-width:900px;border-collapse:separate;border-spacing:0;}
+  .proposal-overview-table thead th{background:#f1f1f1;padding:12px 9px;text-align:left;color:var(--ink);font-size:14px;font-weight:600;border-bottom:1px solid #d8dee8;}
+  .proposal-overview-table thead th .ico{float:right;color:#c2c2c2;margin-left:8px;}
+  .proposal-overview-table tbody td{padding:12px 9px;border-bottom:1px solid #e6eaf0;color:#374151;font-size:14px;vertical-align:middle;}
+  .proposal-overview-table tbody tr:last-child td{border-bottom:none;}
+  .proposal-overview-table td:first-child{font-weight:500;}
+  .proposal-overview-revenue{color:#0067f4;font-weight:700;}
+  .proposal-overview-foot{display:flex;align-items:center;justify-content:flex-end;gap:20px;padding:14px 20px 18px;color:#64748b;font-size:13px;}
+  .proposal-overview-foot .pager{margin-left:auto;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ---------------------------------------------------------------- */
+/*  Icons (Lucide, MIT)                                             */
+/* ---------------------------------------------------------------- */
+const ICONS = {
+  menu:'<path d="M4 12h16M4 6h16M4 18h16"/>',
+  search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  eye:'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  refresh:'<path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/>',
+  chevronDown:'<path d="m6 9 6 6 6-6"/>',
+  chevronRight:'<path d="m9 18 6-6-6-6"/>',
+  arrowLeft:'<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
+  arrowRight:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+  arrowDown:'<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
+  arrowUpRight:'<path d="M7 7h10v10"/><path d="M7 17 17 7"/>',
+  x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  check:'<path d="M20 6 9 17l-5-5"/>',
+  chevronsUpDown:'<path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/>',
+  shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/>',
+  user:'<circle cx="12" cy="12" r="10"/><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/>',
+  fileText:'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+  ban:'<circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/>',
+  clipboard:'<rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
+  signature:'<path d="M12 22h6a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v10"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10.4 12.6a2 2 0 1 1 3 3L8 21l-4 1 1-4Z"/>',
+  bar:'<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+  pencil:'<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+  archive:'<path d="M3 6h18"/><path d="M5 6v14h14V6"/><path d="M3 6l2-3h14l2 3"/><path d="M9 11h6"/>',
+};
+function icon(name, size){
+  size = size || 18;
+  return '<svg class="ico" width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+ICONS[name]+'</svg>';
+}
+
+/* ---------------------------------------------------------------- */
+/*  Colour maps                                                     */
+/* ---------------------------------------------------------------- */
+const TEAM_COLORS = {
+  "SH Leadership":{bg:"#e7ebfb",fg:"#3730a3"},
+  "Global Insurance":{bg:"#fbe7ee",fg:"#be123c"},
+  "SH Consulting":{bg:"#d8f1ed",fg:"#0f766e"},
+  "Executive Search":{bg:"#e8eefc",fg:"#1d4ed8"},
+  "Interim":{bg:"#efe7fb",fg:"#6d28d9"},
+  "Legal":{bg:"#fdf1dc",fg:"#b45309"},
+};
+const teamColor = t => TEAM_COLORS[t] || {bg:"#eef2f7",fg:"#334155"};
+const REGION_COLORS = {
+  "Global":{bg:"#e6ecf7",fg:"#1e3a8a"},
+  "North America":{bg:"#e8eefc",fg:"#1d4ed8"},
+  "Europe":{bg:"#e3f4e9",fg:"#15803d"},
+  "Asia":{bg:"#fdf1dc",fg:"#b45309"},
+  "EMEA":{bg:"#efe7fb",fg:"#6d28d9"},
+  "APAC":{bg:"#d8f1ed",fg:"#0f766e"},
+};
+const regionColor = r => REGION_COLORS[r] || {bg:"#eef2f7",fg:"#334155"};
+const REGION_TABS = ["Global","Americas","Europe","Middle East","EMEA","Asia","APAC","UK"];
+
+/* ---------------------------------------------------------------- */
+/*  Data                                                            */
+/* ---------------------------------------------------------------- */
+const ROWS = [
+  {client:"ABC Consultants",assignment:"SH0003560",teams:["SH Leadership","Global Insurance"],regions:["APAC"],
+   scope:{sub:"Global Real Assets",text:"Real Estate Strategic Advisory — restriction applies to this sub-practice only, not the wider team."},
+   start:"2026-08-20",updated:"2026-09-05",end:"2028-08-30",overview:"This is overview comment."},
+  {client:"LSEG Technology",assignment:"SH0003068",teams:["SH Consulting"],regions:["Europe"],
+   scope:{sub:"Trading & Risk Technology",text:"Restriction applies to all approaches within the specified business area."},
+   start:"2026-08-14",updated:"2026-09-01",end:"2028-08-14",overview:"Restriction applies to all approaches within the specified business area."},
+  {client:"Meridian Capital Partners",assignment:"SH0004120",teams:["Executive Search"],regions:["Americas"],
+   scope:{sub:"Private Equity",text:"Deal origination and portfolio operations team only; excludes fundraising and IR."},
+   start:"2026-06-02",updated:"2026-08-22",end:"2028-06-02",overview:"Portfolio operations leadership off-limits for 24 months."},
+  {client:"Nordström Advisory",assignment:"SH0004455",teams:["Interim","Legal"],regions:["Europe","EMEA"],
+   scope:{sub:"Finance Transformation",text:"Interim CFO and finance transformation practice; permanent placements are unaffected."},
+   start:"2026-05-18",updated:"2026-07-30",end:"2027-05-18",overview:"Interim engagements only."},
+  {client:"Halcyon Life Sciences",assignment:"SH0004980",teams:["Executive Search"],regions:["Americas","Europe"],
+   scope:{sub:"Oncology Franchise",text:"R&D and clinical leadership across the oncology franchise; commercial roles excluded."},
+   start:"2026-07-11",updated:"2026-09-06",end:"2029-07-11",overview:"Clinical leadership restriction, oncology only."},
+  {client:"Orion Global Bank",assignment:"SH0005012",teams:["SH Leadership"],regions:["Global"],
+   scope:{sub:"Group ExCo",text:"Group executive committee and direct reports — all regions, all functions."},
+   start:"2026-03-09",updated:"2026-08-15",end:"2028-03-09",overview:"Firm-wide executive restriction."},
+  {client:"Sakura Holdings",assignment:"SH0005190",teams:["SH Consulting"],regions:["Asia","APAC"],
+   scope:{sub:"Consumer & Retail",text:"Consumer and retail advisory covering the Japan and Greater China desks."},
+   start:"2026-04-27",updated:"2026-08-19",end:"2027-10-27",overview:"Regional consumer advisory restriction."},
+  {client:"Atlas Infrastructure",assignment:"SH0005301",teams:["Executive Search","Legal"],regions:["EMEA"],
+   scope:{sub:"Energy Transition",text:"Energy transition and renewables coverage team; conventional power excluded."},
+   start:"2026-02-14",updated:"2026-07-02",end:"2028-02-14",overview:"Renewables coverage only."},
+  {client:"Vantage Wealth Group",assignment:"SH0005478",teams:["Interim"],regions:["Americas"],
+   scope:{sub:"Wealth Operations",text:"Wealth management operations — client-facing advisor roles are restricted."},
+   start:"2026-06-30",updated:"2026-09-03",end:"2028-06-30",overview:"Advisor roles restricted."},
+  {client:"Gulf Horizon Investments",assignment:"SH0005582",teams:["Legal"],regions:["Middle East","EMEA"],
+   scope:{sub:"Investment Banking",text:"Investment banking leadership and senior client-facing roles are restricted."},
+   start:"2026-07-08",updated:"2026-09-02",end:"2028-07-08",overview:"Middle East restriction with EMEA coverage."},
+  {client:"Sterling Legal Partners",assignment:"SH0005631",teams:["SH Consulting"],regions:["UK"],
+   scope:{sub:"Financial Services",text:"Financial services practice — senior management and leadership only."},
+   start:"2026-08-01",updated:"2026-09-04",end:"2028-08-01",overview:"UK-only restriction."},
+];
+const STATS = [
+  {label:"% of Contracts with Restrictions",value:"19%"},
+];
+const TILES = [
+  {key:"offlimits",title:"Off-Limits Register",desc:"Clients and companies with contractual restrictions on approaching candidates.",icon:"ban",meta:"38 restrictions",accent:"#be123c",primary:true},
+  {key:"proposals",title:"Proposals Register",desc:"Proposals in progress, won and lost, with estimated revenue.",icon:"clipboard",meta:"In progress · Won · Lost",accent:"#16a34a"},
+  {key:"contracts",title:"Contracts Register",desc:"Active, completed, pending and lost contracts across the firm.",icon:"fileText",meta:"142 contracts",accent:"#2563eb"},
+  {key:"changes",title:"Change Requests",desc:"Raise and track changes to register records.",icon:"pencil",meta:"Requests",accent:"#b45309"},
+  {key:"agreements",title:"Agreement Templates",desc:"Standard legal agreement templates for engagements.",icon:"signature",meta:"Templates",accent:"#6d28d9"},
+  {key:"reports",title:"Reports",desc:"Exportable compliance and register reporting.",icon:"bar",meta:"Reporting",accent:"#0f766e"},
+  {key:"trusted",title:"Trusted User",desc:"Manage trusted users and access permissions.",icon:"user",meta:"Users",accent:"#475569"},
+];
+const STUB_TITLES = {contracts:"Contracts Register",proposals:"Proposals Register",agreements:"Agreement Templates",reports:"Reports",changes:"Change Requests",trusted:"Trusted User"};
+const PROPOSAL_ROWS = [
+  {client:"Inversiones Valley Flowers",proposal:"Business Operations Specialist",number:"P0005140",revenue:"",status:"In Progress",stage:"Business Development"},
+  {client:"LW org",proposal:"Test Proposal 10",number:"P0002302",revenue:"GBP 5,000",status:"In Progress",stage:"Finance"},
+  {client:"Yale University",proposal:"Team Lead",number:"P0005560",revenue:"GBP 12,000",status:"Lost",stage:"Business Development"},
+  {client:"Microsoft",proposal:"Junior BA",number:"P0008090",revenue:"GBP 18,000",status:"Won",stage:"Business Development"},
+  {client:"K&L Gates",proposal:"Junior Developer",number:"P0004330",revenue:"GBP 9,500",status:"In Progress",stage:"Business Development"},
+];
+const OFFLIMIT_PROPOSAL_ROWS = [
+  {number:"SH0005140", name:"Business Operations Specialist", client:"Inversiones Valley Flowers", revenue:"", comments:"", status:"inprogress"},
+  {number:"SH0002302", name:"Test Oppl0", client:"LW org", revenue:"GBP 5000", comments:"nn", status:"inprogress"},
+  {number:"SH0004330", name:"Junior developer", client:"K&L Gates", revenue:"", comments:"", status:"inprogress"},
+  {number:"SH0005560", name:"Team Lead", client:"Yale University", revenue:"GBP 12000", comments:"Follow-up required", status:"won"},
+  {number:"SH0008090", name:"Junior BA", client:"Microsoft", revenue:"GBP 18000", comments:"", status:"won"},
+  {number:"SH0006010", name:"Finance Manager", client:"Global Holdings", revenue:"GBP 15000", comments:"Proposal declined", status:"lost"}
+];
+const CONTRACT_ROWS = [
+  {client:"Ge Research",assignment:"SH0003040",searchType:"",revenue:"GBP 8,500",entity:"Hong Kong",contractStatus:"Approved",docStatus:"Not Initiated",start:"15/01/2026"},
+  {client:"LSEG Technology",assignment:"SH0003068",searchType:"",revenue:"GBP 8,500",entity:"Dubai",contractStatus:"In-Revision",docStatus:"Sign Bypassed",start:"15/01/2026"},
+  {client:"Barings",assignment:"SH0008560",searchType:"",revenue:"GBP 1,000",entity:"Singapore",contractStatus:"Approved",docStatus:"Not Initiated",start:"15/01/2026"},
+  {client:"LW org",assignment:"SH0002302",searchType:"",revenue:"GBP 8,500",entity:"London",contractStatus:"In-Revision",docStatus:"Not Initiated",start:"15/01/2026"},
+  {client:"ABC Consultants",assignment:"SH0003560",searchType:"",revenue:"GBP 100",entity:"India",contractStatus:"In-Revision",docStatus:"Not Initiated",start:"15/01/2026"},
+  {client:"JPMorganChase",assignment:"SH0003450",searchType:"",revenue:"",entity:"",contractStatus:"In-Revision",docStatus:"Not Initiated",start:"20/11/2025"},
+  {client:"Goldman Sachs",assignment:"",searchType:"",revenue:"",entity:"",contractStatus:"In-Revision",docStatus:"Not Initiated",start:""},
+];
+
+
+
+/* ---------------------------------------------------------------- */
+/*  State                                                           */
+/* ---------------------------------------------------------------- */
+const state = {
+  profileOpen:false,
+  view:"landing", region:"Global", team:"All Teams", query:"", proposalQuery:"", contractQuery:"", agreementQuery:"",
+  showEnd:false, showOverview:false, sort:{key:"updated",dir:"desc"},
+  teamOpen:false, colsOpen:false, filterOpen:false, detailAssignment:null,
+  offLimitTab:"active", selectedOffLimits:[], proposalOverviewTab:"inprogress", offProposalQuery:"",
+  _focusSearch:false, _focusSearchId:"search", _caret:0,
+};
+
+function getTeams(){
+  const s = new Set(); ROWS.forEach(r=>r.teams.forEach(t=>s.add(t)));
+  return ["All Teams", ...Array.from(s)];
+}
+function getRows(){
+  let out = ROWS.filter(r=>{
+    const okArchive = state.offLimitTab==="active" ? !r.archived : !!r.archived;
+    const okRegion = state.region==="All" || state.region==="Global" ||
+      r.regions.includes("Global") ||
+      r.regions.includes(state.region) ||
+      (state.region==="Europe" && r.regions.includes("EMEA")) ||
+      (state.region==="EMEA" && (r.regions.includes("Europe") || r.regions.includes("Middle East"))) ||
+      (state.region==="Asia" && r.regions.includes("APAC")) ||
+      (state.region==="APAC" && r.regions.includes("Asia")) ||
+      (state.region==="Americas" && (r.regions.includes("North America") || r.regions.includes("South America")));
+    const okTeam = state.team==="All Teams" || r.teams.includes(state.team);
+    const q = state.query.trim().toLowerCase();
+    const okQuery = !q || r.client.toLowerCase().includes(q) || r.assignment.toLowerCase().includes(q)
+      || r.scope.text.toLowerCase().includes(q) || r.scope.sub.toLowerCase().includes(q);
+    return okArchive && okRegion && okTeam && okQuery;
+  });
+  const {key,dir} = state.sort;
+  out = out.slice().sort((a,b)=>{
+    let av,bv;
+    if(key==="client"){av=a.client;bv=b.client;}
+    else if(key==="assignment"){av=a.assignment;bv=b.assignment;}
+    else if(key==="start"){av=a.start;bv=b.start;}
+    else {av=a.updated;bv=b.updated;}
+    const cmp = av<bv?-1:av>bv?1:0;
+    return dir==="asc"?cmp:-cmp;
+  });
+  return out;
+}
+
+/* ---------------------------------------------------------------- */
+/*  View builders                                                   */
+/* ---------------------------------------------------------------- */
+function topbar(crumb){
+  return '<header class="topbar">'
+    + '<div class="tb-left">'
+      + icon("menu",22)
+      + '<img src="Logo.png" class="sh-logo-img" alt="Sheffield Haworth">'
+      + (crumb ? '<nav class="crumb"><button class="home" data-action="nav:landing">LegalDash</button>'+icon("chevronRight",15)+'<span class="cur">'+crumb+'</span></nav>' : '')
+    + '</div>'
+    + '<div class="tb-right">'
+      + (crumb ? '<button class="btn-fin" data-action="findash">'+icon("arrowUpRight",15)+' Go to Findash</button>' : '')
+      + '<button class="avatar" data-action="profileToggle" aria-label="Open profile">'+icon("user",24)+'</button>'
+    + '</div>'
+  + '</header>'
+  + (state.profileOpen ? profilePanel() : '');
+}
+
+function profilePanel(){
+  return '<div class="profile-panel" data-profile-panel>'
+    + '<div class="profile-avatar">'+icon("user",48)+'</div>'
+    + '<div class="profile-name">Vinumi Jayanima</div>'
+    + '<div class="profile-stats">'
+      + '<div class="profile-stat"><div class="profile-stat-top"><span style="color:#3577ff;font-size:20px">↗</span>0</div><div class="profile-stat-label">Sent to Finance</div></div>'
+      + '<div class="profile-stat"><div class="profile-stat-top"><span style="color:#d49a00;font-size:20px">•••</span>0</div><div class="profile-stat-label">Pending Approval</div></div>'
+    + '</div>'
+    + '<button class="profile-signout" type="button">↪ &nbsp; Sign Out</button>'
+  + '</div>';
+}
+
+function landingView(){
+  const tiles = TILES.map(t=>
+    '<button class="tile'+(t.primary?" primary":"")+'" data-action="nav:'+t.key+'">'
+      + '<div class="tile-ic" style="background:'+t.accent+'17;color:'+t.accent+'">'+icon(t.icon,24)+'</div>'
+      + '<div class="tile-head"><h2>'+t.title+'</h2><span class="arr">'+icon("arrowUpRight",20)+'</span></div>'
+      + '<p>'+t.desc+'</p>'
+      + '<span class="meta">'+t.meta+'</span>'
+    + '</button>'
+  ).join("");
+  return topbar(null)
+    + '<main class="wrap">'
+      + '<div class="eyebrow">Sheffield Haworth</div>'
+      + '<h1 class="title">LegalDash</h1>'
+      + '<p class="lead">Choose a register to open. Legal and compliance records are grouped here so you can go straight to what you need.</p>'
+      + '<div class="tiles">'+tiles+'</div>'
+    + '</main>';
+}
+
+function stubView(){
+  const title = STUB_TITLES[state.view] || "Register";
+  return topbar(title)
+    + '<main class="stub wrap-lg">'
+      + '<div class="page-back-row"><button class="offlimits-back" data-action="nav:landing">'+icon("arrowLeft",14)+' Back to LegalDash</button></div>'
+      + '<div class="offlimits-header"><div class="offlimits-title-wrap">'
+      + '<div class="stub-ic">'+icon("fileText",26)+'</div>'
+      + '<h1>'+title+'</h1>'
+      + '<p>This register keeps its existing location and functionality. It\'s outside the scope of this prototype.</p>'
+    + '</main>';
+}
+
+function changeRequestView(){
+  return topbar("Change Request")
+    + '<main class="wrap-lg change-page">'
+      + '<div class="page-back-row"><button class="offlimits-back" data-action="nav:landing">'+icon("arrowLeft",14)+' Back to LegalDash</button></div>'
+      + '<div class="change-title-card"><div class="agreement-title">Change Request</div></div>'
+      + '<div class="change-table-card">'
+        + '<div class="tscroll"><table class="change-table"><thead><tr>'
+        + '<th>#</th><th>Assignment #'+icon("chevronsUpDown",13)+'</th><th>Client Name'+icon("chevronsUpDown",13)+'</th><th>Remark</th><th>Action</th>'
+        + '</tr></thead><tbody><tr><td colspan="5"><div class="change-empty"><div class="empty-file">'+icon("fileText",34)+'</div><div>No Data</div></div></td></tr></tbody></table></div>'
+      + '</div>'
+    + '</main>';
+}
+
+function agreementView(){
+  const templates = [
+    {name:"Template_Non-Retained_Terms and Conditions APAC",region:"APAC"},
+    {name:"Template - Terms & Conditions- Retained(ME) (updated with GDPR...",region:"Middle East"},
+    {name:"Template Engagement Letter_Retained_USA",region:"Americas"},
+    {name:"Template Engagement Letter Non-Retained_UK & Europe",region:"United Kingdom"},
+    {name:"Template Engagement Letter Retained_UK",region:"United Kingdom"}
+  ];
+  const q=(state.agreementQuery||"").trim().toLowerCase();
+  const shown=templates.filter(t=>!q||t.name.toLowerCase().includes(q)||t.region.toLowerCase().includes(q));
+  const cards=shown.map(t=>
+    '<div class="template-card">'
+      + '<button class="template-more" title="More actions">&bull;&bull;&bull;</button>'
+      + '<div class="template-icon">'+icon("fileText",42)+'</div>'
+      + '<div class="template-name">'+t.name+'</div>'
+      + '<div class="template-region">'+t.region+'</div>'
+      + '<button class="template-download" title="Download template">'+icon("arrowDown",20)+'</button>'
+    + '</div>'
+  ).join("");
+  return topbar("Agreement Templates")
+    + '<main class="wrap-lg agreement-page">'
+      + '<div class="page-back-row"><button class="offlimits-back" data-action="nav:landing">'+icon("arrowLeft",14)+' Back to LegalDash</button></div>'
+      + '<div class="agreement-toolbar-card">'
+        + '<div class="agreement-title">Agreement Template</div>'
+        + '<div class="agreement-actions">'
+          + '<div class="agreement-search">'+icon("search",18)+'<input id="agreementSearch" type="text" placeholder="Search" value="'+q.replace(/"/g,'&quot;')+'"></div>'
+          + '<button class="search-btn" title="Search">'+icon("search",18)+'</button>'
+          + '<button class="add-template-btn">'+icon("plus",16)+' Add New Template</button>'
+        + '</div>'
+      + '</div>'
+      + '<div class="template-grid">'+(cards||'<div class="template-empty">No templates match your search.</div>')+'</div>'
+    + '</main>';
+}
+
+function proposalStatusClass(status){
+  if(status==="Won") return "won";
+  if(status==="Lost") return "lost";
+  return "progress";
+}
+
+function proposalView(){
+  const q = state.proposalQuery.trim().toLowerCase();
+  const rows = PROPOSAL_ROWS.filter(r =>
+    !q || r.client.toLowerCase().includes(q) || r.proposal.toLowerCase().includes(q) ||
+    r.number.toLowerCase().includes(q) || r.stage.toLowerCase().includes(q) || r.status.toLowerCase().includes(q)
+  );
+
+  const rowHtml = rows.length ? rows.map(r=>{
+    const cls = proposalStatusClass(r.status);
+    return '<tr>'
+      + '<td class="client">'+r.client+'</td><td>'+r.proposal+'</td><td class="assign"><span>'+r.number+'</span></td>'
+      + '<td class="revenue">'+(r.revenue || '')+'</td><td><span class="status '+cls+'">'+r.status+'</span></td>'
+      + '<td><span class="stage">'+r.stage+'</span></td>'
+      + '<td><div class="actions"><button title="View proposal">'+icon("eye",17)+'</button><button title="Download proposal">'+icon("arrowDown",17)+'</button><button title="Proposal actions">'+icon("chevronsUpDown",17)+'</button></div></td>'
+      + '</tr>';
+  }).join("") : '<tr><td colspan="7"><div class="empty"><p>No proposals match your search.</p><button data-action="proposalReset">Clear search</button></div></td></tr>';
+
+  return topbar("Proposals Register")
+    + '<main class="wrap-lg">'
+      + '<div class="page-back-row"><button class="offlimits-back" data-action="nav:landing">'+icon("arrowLeft",14)+' Back to LegalDash</button></div>'
+      + '<div class="proposal-tabs"><button class="proposal-tab" data-action="nav:contracts">Contracts</button><button class="proposal-tab active">Proposals</button></div>'
+      + '<div class="proposal-card">'
+        + '<div class="proposal-toolbar"><button class="status-link">Status Definition</button>'
+        + '<div class="proposal-search">'+icon("search",18)+'<input id="proposalSearch" type="text" placeholder="Search" value="'+state.proposalQuery.replace(/"/g,"&quot;")+'"></div>'
+        + '<button class="search-btn" title="Search">'+icon("search",18)+'</button><button class="advanced-btn">Advanced Search</button></div>'
+        + '<div class="tscroll"><table class="proposal-table"><thead><tr>'
+        + '<th>Client Name'+icon("chevronsUpDown",13)+'</th><th>Proposal Name'+icon("chevronsUpDown",13)+'</th><th>Proposal Number'+icon("chevronsUpDown",13)+'</th>'
+        + '<th>Est. Revenue</th><th>Status'+icon("chevronsUpDown",13)+'</th><th>Stage'+icon("chevronsUpDown",13)+'</th><th>Action</th>'
+        + '</tr></thead><tbody>'+rowHtml+'</tbody></table></div>'
+        + '<div class="proposal-foot"><span>Showing '+rows.length+' of '+PROPOSAL_ROWS.length+' proposals</span><div class="pager"><button>'+icon("arrowLeft",14)+'</button><button class="cur">1</button><button>'+icon("arrowRight",14)+'</button></div></div>'
+      + '</div>'
+    + '</main>';
+}
+
+function contractStatusClass(status){
+  return status==="Approved" ? "approved" : "revision";
+}
+function docStatusClass(status){
+  return status==="Sign Bypassed" ? "bypassed" : "initiated";
+}
+
+function contractView(){
+  const q = state.contractQuery.trim().toLowerCase();
+  const rows = CONTRACT_ROWS.filter(r =>
+    !q || r.client.toLowerCase().includes(q) || r.assignment.toLowerCase().includes(q) ||
+    r.searchType.toLowerCase().includes(q) || r.entity.toLowerCase().includes(q) ||
+    r.contractStatus.toLowerCase().includes(q) || r.docStatus.toLowerCase().includes(q)
+  );
+
+  const rowHtml = rows.length ? rows.map(r=>{
+    return '<tr>'
+      + '<td class="client">'+r.client+'</td>'
+      + '<td class="assign"><span>'+r.assignment+'</span></td>'
+      + '<td>'+r.searchType+'</td>'
+      + '<td class="revenue">'+r.revenue+'</td>'
+      + '<td>'+r.entity+'</td>'
+      + '<td><span class="contract-status '+contractStatusClass(r.contractStatus)+'">'+r.contractStatus+'</span></td>'
+      + '<td><span class="doc-status '+docStatusClass(r.docStatus)+'">'+r.docStatus+'</span></td>'
+      + '<td class="start-date-col">'+r.start+'</td>'
+      + '<td><div class="contract-actions"><button title="View contract">'+icon("eye",17)+'</button><button title="Download contract">'+icon("arrowDown",17)+'</button><button title="Contract actions">'+icon("chevronsUpDown",17)+'</button><button title="More actions">'+icon("chevronDown",17)+'</button></div></td>'
+      + '</tr>';
+  }).join("") : '<tr><td colspan="9"><div class="empty"><p>No contracts match your search.</p><button data-action="contractReset">Clear search</button></div></td></tr>';
+
+  return topbar("Contracts Register")
+    + '<main class="wrap-lg">'
+      + '<div class="page-back-row"><button class="offlimits-back" data-action="nav:landing">'+icon("arrowLeft",14)+' Back to LegalDash</button></div>'
+      + '<div class="proposal-tabs"><button class="proposal-tab active">Contracts</button><button class="proposal-tab" data-action="nav:proposals">Proposals</button></div>'
+      + '<div class="contract-card">'
+        + '<div class="contract-toolbar"><button class="contract-status-link">Status Definition</button>'
+        + '<div class="contract-search">'+icon("search",18)+'<input id="contractSearch" type="text" placeholder="Search" value="'+state.contractQuery.replace(/"/g,"&quot;")+'"></div>'
+        + '<button class="search-btn" title="Search">'+icon("search",18)+'</button><button class="advanced-btn">Advanced Search</button></div>'
+        + '<div class="tscroll"><table class="contract-table"><thead><tr>'
+        + '<th>Client Name'+icon("chevronsUpDown",13)+'</th><th>Assignment #'+icon("chevronsUpDown",13)+'</th><th>Search Type'+icon("chevronsUpDown",13)+'</th>'
+        + '<th>Est. Revenue</th><th>Legal Entity</th><th>Contract Status'+icon("chevronsUpDown",13)+'</th><th>DocuSign Status'+icon("chevronsUpDown",13)+'</th><th class="start-date-col">Start Date'+icon("chevronsUpDown",13)+'</th><th>Action</th>'
+        + '</tr></thead><tbody>'+rowHtml+'</tbody></table></div>'
+        + '<div class="contract-foot"><span>Showing '+rows.length+' of '+CONTRACT_ROWS.length+' contracts</span><div class="pager"><button>'+icon("arrowLeft",14)+'</button><button class="cur">1</button><button>'+icon("arrowRight",14)+'</button></div></div>'
+      + '</div>'
+    + '</main>';
+}
+
+function sortHeader(label,key){
+  const active = state.sort.key===key;
+  const cls = "sortbtn"+(active?" active":"")+(active&&state.sort.dir==="asc"?" asc":"");
+  return '<button class="'+cls+'" data-action="sort:'+key+'">'+label+icon("chevronsUpDown",13)+'</button>';
+}
+
+function tableHead(){
+  const rows = getRows();
+  const allSelected = rows.length>0 && rows.every(r=>state.selectedOffLimits.includes(r.assignment));
+  let h = '<tr>'
+    + '<th class="check-col"><label class="check-wrap"><input type="checkbox" data-action="selectAllOffLimits" '+(allSelected?'checked':'')+'><span class="checkmark"></span></label></th>'
+    + '<th>'+sortHeader("Client Name","client")+'</th>'
+    + '<th>'+sortHeader("Assignment Number","assignment")+'</th>'
+    + '<th>Team</th>'
+    + '<th>Region</th>'
+    + '<th>Scope</th>'
+    + '<th>'+sortHeader("Start Date","start")+'</th>';
+  if(state.showEnd) h += '<th>End Date</th>';
+  if(state.showOverview) h += '<th>Overview</th>';
+  h += '<th>Action</th>';
+  return h + '</tr>';
+}
+
+function tableBody(){
+  const rows = getRows();
+  const colCount = 7 + (state.showEnd?1:0) + (state.showOverview?1:0);
+  if(rows.length===0){
+    return '<tr><td colspan="'+colCount+'"><div class="empty"><p>No restrictions match these filters.</p>'
+      + '<button data-action="reset">Clear filters</button></div></td></tr>';
+  }
+  return rows.map(r=>{
+    const TEAM_INITIALS = {"SH Leadership":"SHL","Global Insurance":"GI","SH Consulting":"SHC","Executive Search":"ES","Interim":"I","Legal":"L"};
+    const teams = '<div class="pills">'+r.teams.map(t=>{const c=teamColor(t);return '<span class="pill" title="'+t+'" style="background:'+c.bg+';color:'+c.fg+'">'+(TEAM_INITIALS[t]||t)+'</span>';}).join("")+'</div>';
+    const regions = '<div class="pills">'+r.regions.map(rg=>{const c=regionColor(rg);return '<span class="pill" style="background:'+c.bg+';color:'+c.fg+'">'+rg+'</span>';}).join("")+'</div>';
+    const selected = state.selectedOffLimits.includes(r.assignment);
+    let tds = '<td class="check-col"><label class="check-wrap"><input type="checkbox" data-offlimit-check="'+r.assignment+'" '+(selected?'checked':'')+'><span class="checkmark"></span></label></td>'
+      + '<td class="client">'+r.client+'</td>'
+      + '<td class="assign"><span>'+r.assignment+'</span></td>'
+      + '<td>'+teams+'</td>'
+      + '<td>'+regions+'</td>'
+      + '<td class="scope"><p>'+r.scope.text+'</p></td>'
+      + '<td class="date tabular">'+r.start+'</td>';
+    if(state.showEnd) tds += '<td class="date tabular">'+r.end+'</td>';
+    if(state.showOverview) tds += '<td class="over">'+r.overview+'</td>';
+    tds += '<td><button class="icon-btn" data-action="detail:'+r.assignment+'" title="View">'+icon("eye",17)+'</button></td>';
+    return '<tr>'+tds+'</tr>';
+  }).join("");
+}
+
+function offLimitsDetailPanel(r){
+  if(!r) return '';
+  return '<div class="modal-overlay" data-action="closeDetail">'
+    + '<section class="detail-panel">'
+      + '<div class="detail-head">'
+        + '<div><div class="detail-label">Assignment No.</div><div class="detail-value">'+r.assignment+'</div></div>'
+        + '<div><div class="detail-label">Client</div><div class="detail-value">'+r.client+'</div></div>'
+        + '<button type="button" class="detail-close" data-action="closeDetail">'+icon("x",14)+' Close</button>'
+      + '</div>'
+      + '<div class="detail-body">'
+        + '<div class="detail-field"><label>Start Date:</label><div class="detail-value detail-date">'+r.start+'</div></div>'
+        + '<div class="detail-field"><label>End Date:</label><div class="detail-value detail-date">'+(r.end || '—')+'</div></div>'
+        + '<div class="detail-field"><label>Affiliate:</label><div class="toggle"><button>Yes</button><button class="active">No</button></div></div>'
+        + '<div class="detail-field"><label>Subsidiaries:</label><textarea class="detail-textarea" disabled>Affiliates Note 3</textarea></div>'
+        + '<div class="detail-field"><h2 class="detail-heading">Client Company Departments</h2><div class="dept-pills"><span class="dept-pill">it</span><span class="dept-pill">finance</span><span class="dept-pill">global wealth</span></div></div>'
+        + '<div class="detail-field overview-heading"><h2 class="detail-heading">Off-limits Overview</h2><p class="detail-overview">'+r.overview+'</p></div>'
+      + '</div>'
+    + '</section>'
+  + '</div>';
+}
+
+function proposalOverviewSection(){
+  const q = state.offProposalQuery.trim().toLowerCase();
+  const rows = OFFLIMIT_PROPOSAL_ROWS.filter(r =>
+    r.status===state.proposalOverviewTab &&
+    (!q || r.number.toLowerCase().includes(q) || r.name.toLowerCase().includes(q) || r.client.toLowerCase().includes(q) || r.revenue.toLowerCase().includes(q) || r.comments.toLowerCase().includes(q))
+  );
+  const rowHtml = rows.length ? rows.map(r => '<tr>'
+    + '<td>'+r.number+'</td><td>'+r.name+'</td><td>'+r.client+'</td><td class="proposal-overview-revenue">'+r.revenue+'</td><td>'+r.comments+'</td>'
+    + '</tr>').join("")
+    : '<tr><td colspan="5"><div class="empty"><p>No proposals match your search.</p><button data-action="offProposalReset">Clear search</button></div></td></tr>';
+
+  return '<section class="proposal-overview-section">'
+    + '<div class="proposal-overview-head"><h2>Proposal Overview</h2>'
+      + '<div class="proposal-overview-tools"><div class="proposal-overview-search"><input id="offProposalSearch" type="text" placeholder="Search" value="'+state.offProposalQuery.replace(/"/g,"&quot;")+'"></div>'
+      + '<button class="proposal-overview-search-btn" data-action="offProposalSearch" title="Search">'+icon("search",18)+'</button>'
+      + '<button class="proposal-overview-refresh" data-action="offProposalRefresh" title="Refresh">'+icon("refresh",17)+'</button></div>'
+    + '</div>'
+    + '<div class="proposal-overview-tabs">'
+      + '<button class="proposal-overview-tab'+(state.proposalOverviewTab==="inprogress"?' active':'')+'" data-action="proposalOverviewTab:inprogress">In Progress</button>'
+      + '<button class="proposal-overview-tab'+(state.proposalOverviewTab==="won"?' active':'')+'" data-action="proposalOverviewTab:won">Won</button>'
+      + '<button class="proposal-overview-tab'+(state.proposalOverviewTab==="lost"?' active':'')+'" data-action="proposalOverviewTab:lost">Lost</button>'
+    + '</div>'
+    + '<div class="proposal-overview-table-wrap"><table class="proposal-overview-table"><thead><tr>'
+      + '<th>Assignment #'+icon("chevronsUpDown",13)+'</th><th>Assignment Name'+icon("chevronsUpDown",13)+'</th><th>Client'+icon("chevronsUpDown",13)+'</th><th>Est. Revenue</th><th>Comments</th>'
+    + '</tr></thead><tbody>'+rowHtml+'</tbody></table></div>'
+    + '<div class="proposal-overview-foot"><span>Showing '+rows.length+' of '+OFFLIMIT_PROPOSAL_ROWS.filter(r=>r.status===state.proposalOverviewTab).length+' proposals</span><div class="pager"><button>'+icon("arrowLeft",14)+'</button><button class="cur">1</button><button>'+icon("arrowRight",14)+'</button></div></div>'
+  + '</section>';
+}
+
+function registerView(){
+  const tabs = REGION_TABS.map(r =>
+    '<button class="rtab'+(state.region===r?" active":"")+'" data-action="region:'+r+'">'+r+'</button>'
+  ).join("");
+
+  const teamTabs = getTeams().map(t =>
+    '<button class="team-tab'+(state.team===t?" active":"")+'" data-action="team:'+t+'">'+t+'</button>'
+  ).join("");
+
+  const stats = '<div class="stat">'
+    + '<div class="stat-ic"><svg width="26" height="26" viewBox="0 0 26 26"><circle cx="7" cy="13" r="2.2" fill="currentColor"/><circle cx="13" cy="13" r="2.2" fill="currentColor"/><circle cx="19" cy="13" r="2.2" fill="currentColor"/></svg></div>'
+    + '<div class="stat-copy"><div class="lbl">Global Pending Revenue '+icon("info",13)+'</div><div class="num">£8,500</div></div></div>'
+    + '<div class="stat"><div class="stat-percent">19%</div><div class="stat-copy"><div class="lbl">% of Contracts with Restrictions '+icon("info",13)+'</div><div class="stat-note">This relates to the total number of contracts so far in the year.</div></div></div>'
+    + '<div class="stat"><div class="stat-percent">38</div><div class="stat-copy"><div class="lbl">Number of Restrictions '+icon("info",13)+'</div><div class="stat-note">38 restrictions across 142 total contracts so far this year.</div></div></div>';
+
+  const total = ROWS.length, shown = getRows().length;
+
+  return topbar("Off-limits &amp; Non-Solicit Register")
+    + '<main class="wrap-lg">'
+      + '<div class="page-back-row"><button class="offlimits-back" data-action="nav:landing">'+icon("arrowLeft",14)+' Back to LegalDash</button></div>'
+      + '<div class="offlimits-header"><div class="offlimits-title-wrap"><h1 class="reg-title">Off-limits and Non-Solicit Register</h1></div></div>'
+      + '<div class="guidance">'+icon("shield",18)+'<p>This register lists clients and companies where Sheffield Haworth has agreed contractual restrictions on approaching, contacting, poaching or placing candidates. Before approaching any active candidate, check whether their current employer appears here. If in doubt, don\'t approach — please contact Legal before proceeding. A breach carries contractual and reputational risk for the firm.</p></div>'
+      + '<div class="stats">'+stats+'</div>'
+      + '<div class="reg">'
+        + '<div class="record-tabs"><button class="record-tab'+(state.offLimitTab==="active"?' active':'')+'" data-action="offLimitTab:active">Active</button><button class="record-tab'+(state.offLimitTab==="archived"?' active':'')+'" data-action="offLimitTab:archived">Archived</button></div>'
+        + '<div class="rtabs">'+tabs+'</div>'
+        + '<div class="team-tabs">'+teamTabs+'</div>'
+        + '<div class="controls"><div class="search">'+icon("search",18)+'<input id="search" type="text" placeholder="Search by client, candidate employer or assignment number" value="'+state.query.replace(/"/g,"&quot;")+'"></div>'
+        + '<button class="icon-btn archive-action" data-action="archiveSelected" title="Archive selected" '+(state.offLimitTab==="active" && state.selectedOffLimits.length?'':'disabled')+'>'+icon("archive",17)+'</button>'
+        + '<button class="icon-btn" data-action="reset" title="Reset filters">'+icon("refresh",17)+'</button></div>'
+        + '<div class="tscroll"><table><thead>'+tableHead()+'</thead><tbody>'+tableBody()+'</tbody></table></div>'
+        + '<div class="rfoot"><span>Showing '+shown+' of '+total+' restrictions</span><div class="pager"><button>'+icon("arrowLeft",14)+'</button><button class="cur">1</button><button>'+icon("arrowRight",14)+'</button></div></div>'
+      + '</div>'
+      + proposalOverviewSection()
+    + '</main>'
+    + (state.detailAssignment ? offLimitsDetailPanel(ROWS.find(x=>x.assignment===state.detailAssignment)) : '');
+}
+
+/* ---------------------------------------------------------------- */
+/*  Render + events                                                 */
+/* ---------------------------------------------------------------- */
+const app = document.getElementById("app");
+
+function reportsView(){
+  const reports = [
+    "Contract Overview Report",
+    "Exclusivity Report",
+    "Cross-Selling Report",
+    "Monthly Wins - Assignments Report",
+    "Quarterly Wins - Assignments Report",
+    "Off-Limits View Breakdown Report"
+  ];
+  return topbar("Reports")
+    + '<main class="wrap-lg reports-page">'
+      + '<div class="page-back-row"><button class="offlimits-back" data-action="nav:landing">'+icon("arrowLeft",14)+' Back to LegalDash</button></div>'
+      + '<div class="reports-title-card"><div class="agreement-title">Report Details</div></div>'
+      + '<div class="reports-list-card">'
+        + reports.map(r => '<div class="report-row"><div class="report-left"><div class="report-icon">'+icon("fileText",26)+'</div><span>'+r+'</span></div><button class="report-download">'+icon("arrowDown",15)+' Download</button></div>').join("")
+      + '</div>'
+    + '</main>';
+}
+
+function trustedView(){
+  const users = [
+    ["Mohit Kumar","Manage All"],["Sheree Okuromade","Manage All"],["Glen Magistrado","Manage All"],["Purva Shrivastava","Manage All"],["Sinead Stoppani","View All"],["Kelly Reyes","Manage All"],["Evelyn Wardell","Manage All"],["Emma Quan","View All"],["Lillian Ferragamo","View All"],["Frances Wright","Manage All"]
+  ];
+  return topbar("Trusted User")
+    + '<main class="wrap-lg trusted-page">'
+      + '<div class="page-back-row"><button class="offlimits-back" data-action="nav:landing">'+icon("arrowLeft",14)+' Back to LegalDash</button></div>'
+      + '<div class="trusted-title-card"><div class="agreement-title">Trusted User</div><button class="add-template-btn">'+icon("plus",16)+' Add New Trusted User</button></div>'
+      + '<div class="trusted-table-card"><div class="tscroll"><table class="trusted-table"><thead><tr><th>#</th><th>User Group Name'+icon("chevronsUpDown",13)+'</th><th>Permission Level</th><th>Action</th></tr></thead><tbody>'
+      + users.map((u,i)=>'<tr><td><div class="user-mini">'+icon("user",16)+'</div></td><td>'+u[0]+'</td><td>'+u[1]+'</td><td><div class="trusted-actions"><button title="Edit">'+icon("pencil",15)+'</button><button title="Delete">'+icon("trash",15)+'</button></div></td></tr>').join("")
+      + '</tbody></table></div><div class="trusted-pager"><span>‹</span><button class="active">1</button><span>2</span><span>3</span><span>4</span><span>5</span><span>›</span></div></div>'
+    + '</main>';
+}
+
+function render(){
+  let html;
+  if(state.view==="landing") html = landingView();
+  else if(state.view==="offlimits") html = registerView();
+  else if(state.view==="proposals") html = proposalView();
+  else if(state.view==="contracts") html = contractView();
+  else if(state.view==="agreements") html = agreementView();
+  else if(state.view==="changes") html = changeRequestView();
+  else if(state.view==="reports") html = reportsView();
+  else if(state.view==="trusted") html = trustedView();
+  else html = stubView();
+  app.innerHTML = html;
+  if(state._focusSearch){
+    const s = document.getElementById(state._focusSearchId || "search");
+    if(s){ s.focus(); try{ s.setSelectionRange(state._caret,state._caret); }catch(e){} }
+    state._focusSearch = false;
+  }
+}
+
+document.addEventListener("click", function(e){
+  if(state.profileOpen && !e.target.closest("[data-profile-panel]") && !e.target.closest(".avatar")){ state.profileOpen=false; }
+  const offCheck = e.target.closest("[data-offlimit-check]");
+  if(offCheck){
+    const assignment = offCheck.getAttribute("data-offlimit-check");
+    if(offCheck.checked){
+      if(!state.selectedOffLimits.includes(assignment)) state.selectedOffLimits.push(assignment);
+    }else{
+      state.selectedOffLimits = state.selectedOffLimits.filter(x=>x!==assignment);
+    }
+    render();
+    return;
+  }
+  const el = e.target.closest("[data-action]");
+  // close scope popover on any click outside a scope cell
+  if(!e.target.closest("[data-scopecell]")) state.openScope = null;
+
+  if(!el){
+    if(!e.target.closest("[data-dropdown]")){ state.teamOpen=false; state.colsOpen=false; }
+    render(); return;
+  }
+  const action = el.getAttribute("data-action");
+  const idx = action.indexOf(":");
+  const name = idx===-1 ? action : action.slice(0,idx);
+  const val  = idx===-1 ? null   : action.slice(idx+1);
+
+  // default: collapse dropdowns unless the action manages them
+  if(name!=="filterToggle") state.filterOpen=false;
+  if(name!=="teamToggle" && name!=="colsToggle" && name!=="col") state.colsOpen=false;
+  if(name!=="teamToggle" && name!=="colsToggle") state.teamOpen=false;
+
+  switch(name){
+    case "nav": state.view=val; state.detailAssignment=null; state.profileOpen=false; break;
+    case "profileToggle": state.profileOpen=!state.profileOpen; break;
+    case "offLimitTab": state.offLimitTab=val; state.selectedOffLimits=[]; break;
+    case "proposalOverviewTab": state.proposalOverviewTab=val; break;
+    case "offProposalSearch": break;
+    case "offProposalRefresh": state.offProposalQuery=""; break;
+    case "offProposalReset": state.offProposalQuery=""; break;
+    case "selectAllOffLimits": {
+      const rows = getRows();
+      const allSelected = rows.length>0 && rows.every(r=>state.selectedOffLimits.includes(r.assignment));
+      if(allSelected){
+        state.selectedOffLimits = state.selectedOffLimits.filter(id=>!rows.some(r=>r.assignment===id));
+      }else{
+        rows.forEach(r=>{ if(!state.selectedOffLimits.includes(r.assignment)) state.selectedOffLimits.push(r.assignment); });
+      }
+      break;
+    }
+    case "archiveSelected":
+      if(state.offLimitTab==="active" && state.selectedOffLimits.length){
+        ROWS.forEach(r=>{ if(state.selectedOffLimits.includes(r.assignment)) r.archived=true; });
+        state.selectedOffLimits=[];
+      }
+      break;
+    case "region": state.region=val; state.filterOpen=false; break;
+    case "filterToggle": state.filterOpen=!state.filterOpen; break;
+    case "applyFilters":
+      state.region = document.getElementById("regionFilter")?.value || "All";
+      state.team = document.getElementById("teamFilter")?.value || "All Teams";
+      state.filterOpen=false;
+      break;
+    case "clearFilters":
+      state.region="Global"; state.team="All Teams"; state.filterOpen=false;
+      break;
+    case "teamToggle": state.teamOpen=!state.teamOpen; state.colsOpen=false; break;
+    case "team": state.team=val; state.teamOpen=false; state.filterOpen=false; break;
+    case "colsToggle": state.colsOpen=!state.colsOpen; state.teamOpen=false; break;
+    case "col":
+      if(val==="end") state.showEnd=!state.showEnd;
+      else state.showOverview=!state.showOverview;
+      break;
+    case "sort":
+      state.sort = state.sort.key===val
+        ? {key:val, dir:state.sort.dir==="asc"?"desc":"asc"}
+        : {key:val, dir:"asc"};
+      break;
+    case "scope": state.openScope = state.openScope===val ? null : val; break;
+    case "detail": state.detailAssignment=val; break;
+    case "closeDetail": state.detailAssignment=null; break;
+    case "reset":
+      state.region="Global"; state.team="All Teams"; state.query="";
+      state.selectedOffLimits=[];
+      state.offProposalQuery=""; state.proposalOverviewTab="inprogress";
+      state.sort={key:"updated",dir:"desc"};
+      state.teamOpen=false; state.colsOpen=false; state.filterOpen=false;
+      break;
+    case "proposalReset":
+      state.proposalQuery="";
+      break;
+    case "contractReset":
+      state.contractQuery="";
+      break;
+  }
+  render();
+});
+
+document.addEventListener("input", function(e){
+  if(e.target.id==="search"){
+    state.query = e.target.value;
+    state._focusSearchId = "search";
+    state._focusSearch = true;
+    state._caret = e.target.selectionStart;
+    render();
+  }
+  if(e.target.id==="proposalSearch"){
+    state.proposalQuery = e.target.value;
+    state._focusSearchId = "proposalSearch";
+    state._focusSearch = true;
+    state._caret = e.target.selectionStart;
+    render();
+  }
+  if(e.target.id==="offProposalSearch"){
+    state.offProposalQuery = e.target.value;
+    state._focusSearchId = "offProposalSearch";
+    state._focusSearch = true;
+    state._caret = e.target.selectionStart;
+    render();
+  }
+  if(e.target.id==="contractSearch"){
+    state.contractQuery = e.target.value;
+    state._focusSearchId = "contractSearch";
+    state._focusSearch = true;
+    state._caret = e.target.selectionStart;
+    render();
+  }
+
+  if(e.target.id==="agreementSearch"){ state.agreementQuery=e.target.value; render(); const a=document.getElementById("agreementSearch"); if(a){a.focus();a.setSelectionRange(a.value.length,a.value.length);} }
+});
+
+render();
+</script>
+</body>
+</html>
